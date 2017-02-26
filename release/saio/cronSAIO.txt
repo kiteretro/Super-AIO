@@ -1,1 +1,1 @@
-@reboot /usr/bin/nice -n 19 /usr/bin/python /home/pi/saio/osd/saio-osd.py
+@reboot /usr/bin/nice -n 19 /usr/bin/python /home/pi/saio/saio-osd.py
