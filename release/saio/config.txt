@@ -103,4 +103,4 @@ dpi_mode=87
 framebuffer_width=320
 framebuffer_height=240
 dpi_output_format=24597 #rgb
-hdmi_timings=320 1 20 30 38 240 1 4 3 10 0 0 0 125 0 9600000 1
+hdmi_timings=320 1 20 30 38 240 1 4 3 10 0 0 0 60 0 9600000 1
