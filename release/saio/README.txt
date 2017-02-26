@@ -1,4 +1,4 @@
-1. cp -r /boot/saio .
+1. copy folder in to home directory, so that it is /home/pi/saio
 2. cd saio/
 3. sudo dpkg -i python-serial_2.6-1.1_all.deb
 4. python saio-osd.py #(to test)

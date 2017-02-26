@@ -8,6 +8,10 @@ The 'saio' folder must exist as the root of path `/home/pi/saio` (unless you cha
 
 The script will open a serial port to the ATMEGA32u4 and inquire details about battery voltage and config states, this requires the python-serial module. This can be installed with `sudo dpkg -i python-serial_2.6-1.1_all.deb` or `sudo apt-get install python-serial`.
 
+You will probably need to set the binaries to executable:
+- `chmod +x osd/osd`
+- `chmod +x flash/flash.sh`
+
 The script is launched with `python saio-osd.py`
 
 You can run this as a cronjob with `crontab cronSAIO.txt`
@@ -36,5 +40,8 @@ If it complains about missing COM port, do the following:
 The 'tester' folder must exist as the root path of `/home/pi/tester` (unless you change the bindir in the tester.py sctipt).
 
 The script will test for the existence of USB devices (basically just an `lsusb` and some regex), followedby showing a 320x240 test image to screen. With this you can identify which LCD channels are problematic.
+
+You will probably need to set the binaries to executable:
+- `chmod +x pngview`
 
 The script is launched with `python tester.py`
