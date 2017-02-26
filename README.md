@@ -1,7 +1,7 @@
 # Super-AIO
 Kite's Super AIO
 
-[Sudomod forum thread[(http://www.sudomod.com/forum/viewtopic.php?f=3&t=1878)
+[Sudomod forum thread](http://www.sudomod.com/forum/viewtopic.php?f=3&t=1878)
 
 ## SAIO
 The 'saio' folder must exist as the root of path `/home/pi/saio` (unless you change the bindir in the saio-osd.py and all associated config files).
