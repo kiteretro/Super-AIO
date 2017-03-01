@@ -26,15 +26,8 @@ pi_overtemp = 26
 serport = '/dev/ttyACM0'
 
 # Setup
-console = logging.StreamHandler() # set up logging to console
-console.setLevel(logging.INFO) #DEBUG
-formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s') # set a format which is simpler for console use
-console.setFormatter(formatter)
-
-logging.getLogger('').addHandler(console) # add the handler to the root logger
-logger = logging.getLogger(__name__)
-
-logger.info("Program Started")
+logging.basicConfig(level=logging.DEBUG)
+logging.info("Program Started")
 
 # Init GPIO pins
 GPIO.setwarnings(False)
@@ -71,7 +64,7 @@ try:
     timeout=1
   )
 except Exception as e:
-  logger.exception("ERROR: Failed to open serial port");
+  logging.exception("ERROR: Failed to open serial port");
   sys.exit(1);
   
 # Set up config file
@@ -95,17 +88,17 @@ try:
   time.sleep(1)
   osd_poll = osd_proc.poll()
   if (osd_poll):
-    logger.error("ERROR: Failed to start OSD, got return code [" + str(osd_poll) + "]\n")
+    logging.error("ERROR: Failed to start OSD, got return code [" + str(osd_poll) + "]\n")
     sys.exit(1)
 except Exception as e:
-  logger.exception("ERROR: Failed start OSD binary");
+  logging.exception("ERROR: Failed start OSD binary");
   sys.exit(1);
 
 # Check for shutdown state
 def checkShdn():
   state = not GPIO.input(pi_shdn)
   if (state):
-    logger.info("SHUTDOWN")
+    logging.info("SHUTDOWN")
     doShutdown()
 
 # Check for lowb state
@@ -118,23 +111,23 @@ def readVoltage():
   voltVal = int(ser.readline().rstrip('\r\n'))
   volt = int((( voltVal * voltscale * dacres + ( dacmax * 5 ) ) / (( dacres * resdivval ) / resdivmul)))
   
-  logger.info("VoltVal [" + str(voltVal) + "]")
-  logger.info("Volt    [" + str(volt) + "]V")
+  logging.info("VoltVal [" + str(voltVal) + "]")
+  logging.info("Volt    [" + str(volt) + "]V")
   
   global batt_islow
   
   if (batt_islow):
     if (volt > batt_low + batt_threshold):
       batt_islow = False
-      logger.info("BATT OK")
+      logging.info("BATT OK")
     if (volt < batt_shdn):
-      logger.info("VERY LOW BATT")
+      logging.info("VERY LOW BATT")
       #doShutdown()
       
   else:
     if (volt < batt_low):
       batt_islow = True
-      logger.info("LOW BATT")
+      logging.info("LOW BATT")
   
   return volt
 
@@ -148,30 +141,33 @@ def readCurrent():
   currVal = int(ser.readline().rstrip('\r\n'))
   curr = int((currVal * (dacres / (dacmax*10)) * currscale))
   
-  logger.info("CurrVal [" + str(currVal) + "]")
-  logger.info("Curr    [" + str(curr) + "]mA")
+  logging.info("CurrVal [" + str(currVal) + "]")
+  logging.info("Curr    [" + str(curr) + "]mA")
   return curr
 
 # Read mode
-def readModeInfo():
+def readModeDebug():
   ser.write('i')
-  infoVal = int(ser.readline().rstrip('\r\n'))
-  logger.info("Info    [" + str(infoVal) + "]")
-  return infoVal
+  debugVal = int(ser.readline().rstrip('\r\n'))
+  logging.info("Info    [" + str(debugVal) + "]")
+  return debugVal
 
 # Read wifi
 def readModeWifi():
   ser.write('w')
   wifiVal = int(ser.readline().rstrip('\r\n'))
-  logger.info("Wifi    [" + str(wifiVal) + "]")
+  logging.info("Wifi    [" + str(wifiVal) + "]")
   return wifiVal
 
 # Read mute
 def readModeMute():
   ser.write('a')
-  muteVal = int(ser.readline().rstrip('\r\n'))
-  logger.info("Mute    [" + str(muteVal) + "]")
-  return muteVal
+  audVal = int(ser.readline().rstrip('\r\n'))
+  logging.info("Audio   [" + str(audVal) + "]")
+  if (audVal):
+    return 0
+  else:
+    return 1
 
 # Read CPU temp
 def getCPUtemperature():
@@ -188,12 +184,12 @@ def checkTemperature():
     if (temp < temperature_max - temperature_threshold):
       temperature_isover = False
       GPIO.output(pi_overtemp, GPIO.LOW)
-      logger.info("TEMP OK")
+      logging.info("TEMP OK")
   else:
     if (temp > temperature_max):
       temperature_isover = True
       GPIO.output(pi_overtemp, GPIO.HIGH)
-      logger.info("OVERTEMP")
+      logging.info("OVERTEMP")
   return temp
 
 # Do a shutdown
@@ -210,11 +206,11 @@ def doShutdown():
   sys.exit(0)
 
 # Create ini config
-def createINI(volt, curr, temp, show, wifi, mute, file):
+def createINI(volt, curr, temp, debug, wifi, mute, file):
   #config.set('data', 'voltage', '{0:.2f}'.format(volt/100.00))
   config.set('data', 'voltage', volt)
   config.set('data', 'temperature', temp)
-  config.set('data', 'showdebug', show)
+  config.set('data', 'showdebug', debug)
   config.set('data', 'showwifi', wifi)
   config.set('data', 'showmute', mute)
 
@@ -249,11 +245,11 @@ try:
     volt = readVoltage()
     checkShdn()
     temp = checkTemperature()
-    show = readModeInfo()
+    debug = readModeDebug()
     wifi = readModeWifi()
     mute = readModeMute()    
 
-    createINI(volt, 0, temp, show, wifi, mute, ini_data_file)
+    createINI(volt, 0, temp, debug, wifi, mute, ini_data_file)
     
     time.sleep(3);
   
