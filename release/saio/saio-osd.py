@@ -14,7 +14,7 @@ except ImportError:
   from ConfigParser import ConfigParser  # ver. < 3.0
 
 # Config variables
-bin_dir         = '/home/pi/saio/osd/'
+bin_dir         = '/home/pi/Super-AIO/release/saio/osd/'
 ini_data_file   = bin_dir + 'data.ini'
 ini_config_file = bin_dir + 'config.ini'
 osd_path        = bin_dir + 'osd'
@@ -69,7 +69,6 @@ except Exception as e:
   
 # Set up config file
 config = ConfigParser()
-
 config.add_section('protocol')
 config.set('protocol', 'version', 1)
 config.add_section('data')
@@ -79,9 +78,13 @@ config.set('data', 'showdebug', 1)
 config.set('data', 'showwifi', 0)
 config.set('data', 'showmute', 0)
 
-with open(ini_data_file, 'w') as configfile:
-  config.write(configfile)
-
+try:
+  with open(ini_data_file, 'w') as configfile:
+    config.write(configfile)
+except Expection as e:
+  logging.exception("ERROR: Failed to create config file");
+  sys.exit(1);
+    
 # Set up OSD service
 try:
   osd_proc = subprocess.Popen([osd_path, "-d", ini_data_file, "-c", ini_config_file])

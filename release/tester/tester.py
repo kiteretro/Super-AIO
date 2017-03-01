@@ -8,7 +8,7 @@ import time
 import datetime
 import os.path
 
-bindir = "/home/pi/tester/"
+bindir = "/home/pi/Super-AIO/release/tester/"
 
 class bcolors:
   HEADER = '\033[95m'

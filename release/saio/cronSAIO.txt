@@ -1,1 +1,1 @@
-@reboot /usr/bin/nice -n 19 /usr/bin/python /home/pi/saio/saio-osd.py
+@reboot /usr/bin/nice -n 19 /usr/bin/python /home/pi/Super-AIO/release/saio/saio-osd.py
