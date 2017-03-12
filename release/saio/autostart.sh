@@ -27,6 +27,9 @@ if [ -f $CONFIGFILE ]; then
   if [[ "$MODE" == "TESTER" && -n "$TESTER" ]] ; then
     echo "Starting TESTER.."
     python $TESTER
+  elif [ "$MODE" == "SHELL" ] ; then
+    echo "Starting SHELL.."
+    exit 0
   else
     echo "Starting EMULATIONSTATION.."
     emulationstation #auto

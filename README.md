@@ -17,6 +17,8 @@ The script is launched with `python Super-AIO/release/saio/saio-osd.py`
 
 You can run this as a cronjob with `crontab Super-AIO/release/saio/cronSAIO.txt`
 
+Place the `autostart.sh` in `/opt/retropie/configs/all/autostart.sh` and then configure the `/boot/config-saio.txt` file for the boot mode
+
 To enable USB sound, copy the `asound.conf` into `/etc/` (`sudo cp Super-AIO/release/saio/asound.conf /etc/`)
 
 ### Flasher

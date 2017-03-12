@@ -23,12 +23,21 @@
 # Setup
 #############################
 
+import RPi.GPIO as GPIO 
 import subprocess
 import time
 import datetime
 import os.path
 
 bindir = "/home/pi/Super-AIO/release/tester/"
+
+# Hardware variables
+pi_shdn = 27
+
+# Init GPIO pins
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(pi_shdn, GPIO.IN)
 
 class bcolors:
   HEADER = '\033[95m'
@@ -75,8 +84,15 @@ def testUSB():
     print bcolors.OKGREEN + "JOYSTICK    = [ OK ]" + bcolors.ENDC
   else:
     print bcolors.FAIL + "JOYSTICK    = [FAIL]" + bcolors.ENDC
-  
-  time.sleep(3)
+
+# Test GPIO
+#############################
+def testGPIO():
+  shdnstate = not GPIO.input(pi_shdn)
+  if (shdnstate):
+    print bcolors.FAIL + "GPIO SHDN   = [ OFF]" + bcolors.ENDC
+  else:
+    print bcolors.OKGREEN + "GPIO SHDN   = [ ON ]" + bcolors.ENDC
 
 # Test LCD
 #############################
@@ -111,6 +127,9 @@ try:
     print "------------------------------"
     
     testUSB()
+    testGPIO()
+    time.sleep(3)
+    
     testLCD()
     #testAUDIO()
     

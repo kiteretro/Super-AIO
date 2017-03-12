@@ -46,6 +46,9 @@ pi_shdn = 27
 pi_overtemp = 26
 serport = '/dev/ttyACM0'
 
+# Software variables
+settings_shutdown = 1 #Enable ability to shut down system
+
 # Setup
 logging.basicConfig(level=logging.DEBUG)
 logging.info("Program Started")
@@ -88,22 +91,22 @@ except Exception as e:
   logging.exception("ERROR: Failed to open serial port");
   sys.exit(1);
   
-# Set up config file
-config = ConfigParser()
-config.add_section('protocol')
-config.set('protocol', 'version', 1)
-config.add_section('data')
-config.set('data', 'voltage', '-.--')
-config.set('data', 'temperature', '--.-')
-config.set('data', 'showdebug', 1)
-config.set('data', 'showwifi', 0)
-config.set('data', 'showmute', 0)
+# Set up configOSD file
+configOSD = ConfigParser()
+configOSD.add_section('protocol')
+configOSD.set('protocol', 'version', 1)
+configOSD.add_section('data')
+configOSD.set('data', 'voltage', '-.--')
+configOSD.set('data', 'temperature', '--.-')
+configOSD.set('data', 'showdebug', 1)
+configOSD.set('data', 'showwifi', 0)
+configOSD.set('data', 'showmute', 0)
 
 try:
   with open(ini_data_file, 'w') as configfile:
-    config.write(configfile)
+    configOSD.write(configfile)
 except Expection as e:
-  logging.exception("ERROR: Failed to create config file");
+  logging.exception("ERROR: Failed to create configOSD file");
   sys.exit(1);
     
 # Set up OSD service
@@ -118,8 +121,36 @@ except Exception as e:
   logging.exception("ERROR: Failed start OSD binary");
   sys.exit(1);
 
+# Class to fake a section header for configparser
+class FakeSecHead(object):
+  def __init__(self, fp):
+    self.fp = fp
+    self.sechead = '[main]\n'
+
+  def readline(self):
+    if self.sechead:
+      try: 
+        return self.sechead
+      finally: 
+        self.sechead = None
+    else: 
+      return self.fp.readline()
+
 # Set up a settings config file
-# TODO!
+configMAIN = ConfigParser()
+if (os.path.isfile(config_file)):
+  try:
+    configMAIN = ConfigParser()
+    configMAIN.readfp(FakeSecHead(open(config_file)))
+    
+    # Analyse values
+    if (configMAIN.get('main', 'mode') == "TESTER" ):
+      settings_shutdown = 0
+    
+  except Exception as e:
+    logging.exception("ERROR: could not load configMAIN file");
+else:
+  logging.warning("WARNING: Failed to find configMAIN file");
 
 # Check for shutdown state
 def checkShdn():
@@ -232,17 +263,17 @@ def doShutdown():
     pass
   sys.exit(0)
 
-# Create ini config
+# Create ini configOSD
 def createINI(volt, curr, temp, debug, wifi, mute, file):
-  #config.set('data', 'voltage', '{0:.2f}'.format(volt/100.00))
-  config.set('data', 'voltage', volt)
-  config.set('data', 'temperature', temp)
-  config.set('data', 'showdebug', debug)
-  config.set('data', 'showwifi', wifi)
-  config.set('data', 'showmute', mute)
+  #configOSD.set('data', 'voltage', '{0:.2f}'.format(volt/100.00))
+  configOSD.set('data', 'voltage', volt)
+  configOSD.set('data', 'temperature', temp)
+  configOSD.set('data', 'showdebug', debug)
+  configOSD.set('data', 'showwifi', wifi)
+  configOSD.set('data', 'showmute', mute)
 
   with open(ini_data_file, 'w') as configfile:
-    config.write(configfile)
+    configOSD.write(configfile)
   
   osd_proc.send_signal(signal.SIGUSR1)
 
@@ -269,8 +300,11 @@ def clamp(n, minn, maxn):
 try:
   print "STARTED!"
   while 1:
+    
+    if (settings_shutdown):
+      checkShdn()
+    
     volt = readVoltage()
-    checkShdn()
     temp = checkTemperature()
     debug = readModeDebug()
     wifi = readModeWifi()

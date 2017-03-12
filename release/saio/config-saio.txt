@@ -1,36 +1,15 @@
-# 
-# This file originates from Kite's Super AIO control board project.
-# Author: Kite (Giles Burgess)
-# 
-# THIS HEADER MUST REMAIN WITH THIS FILE AT ALL TIMES
 #
-# This firmware is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This firmware is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this repo. If not, see <http://www.gnu.org/licenses/>.
-#
-
-#
-# This script gets 'sourced' on boot
+# This script gets sourced on boot
 # It should exist as /boot/config-saio.txt
 #
 
-# Uncomment to enable the 'test mode'
-#MODE="TESTER"
+# Mode to boot in, TESTER will run a debug app
+MODE=NORMAL
+#MODE=TESTER
+#MODE=SHELL
 
 # Location of tester script (gets called with <python $TESTER>)
-TESTER="/home/pi/Super-AIO/release/tester/tester.py"
+TESTER=/home/pi/Super-AIO/release/tester/tester.py
 
-# Location of the OSD script
-OSD="/home/pi/Super-AIO/release/saio/saio-osd.py"
-
-# OSD and process settings
-SAIO_NOSHUTDOWN=false
+# Location of the OSD script (unused currently)
+OSD=/home/pi/Super-AIO/release/saio/saio-osd.py
