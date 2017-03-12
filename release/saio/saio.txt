@@ -1,2 +1,0 @@
-[config]
-mode = NORMAL          ; NORMAL = normal use, TESTER = test mode

@@ -1,7 +1,7 @@
 # FLASH ATMEGA32u4 WITH HEX
 #
 # Author: Giles Burgess
-# GitHub: <insert here>
+# GitHub: https://github.com/geebles/Super-AIO
 #
 # reset.py from https://github.com/nicholaskell/Arduino_Loader
 #

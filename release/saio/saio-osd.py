@@ -1,6 +1,26 @@
 #!/usr/bin/env python
 #sudo apt-get install python-serial
 
+# 
+# This file originates from Kite's Super AIO control board project.
+# Author: Kite (Giles Burgess)
+# 
+# THIS HEADER MUST REMAIN WITH THIS FILE AT ALL TIMES
+#
+# This firmware is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This firmware is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this repo. If not, see <http://www.gnu.org/licenses/>.
+#
+
 import RPi.GPIO as GPIO 
 import time
 import os,signal,sys
@@ -18,6 +38,7 @@ bin_dir         = '/home/pi/Super-AIO/release/saio/osd/'
 ini_data_file   = bin_dir + 'data.ini'
 ini_config_file = bin_dir + 'config.ini'
 osd_path        = bin_dir + 'osd'
+config_file     = '/boot/config-saio.txt'
 
 # Hardware variables
 pi_lowb = 23
@@ -96,6 +117,9 @@ try:
 except Exception as e:
   logging.exception("ERROR: Failed start OSD binary");
   sys.exit(1);
+
+# Set up a settings config file
+# TODO!
 
 # Check for shutdown state
 def checkShdn():
