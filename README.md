@@ -3,6 +3,13 @@ Kite's Super AIO
 
 [Sudomod forum thread](http://www.sudomod.com/forum/viewtopic.php?f=3&t=1878)
 
+## PRE-MADE IMAGES
+The pre-made images are available on the 'releases' section, and are a standard retropie image + a build script run on it to install the extra bits!
+
+There are now SINGLE images for each platform, and you can change them between NORMAL and TESTER by plugging in the SD to a PC and editing `config-saio.txt` (from within linux this is `/boot/config-saio.txt`) and uncommenting/commenting the right lines :)
+
+When in TESTER mode, the power switch will no longer shutdown the system .. you must hard power it off, or plug in a USB keyboard and press `ctrl+c` and the `sudo poweroff`.
+
 ## SAIO
 This github root folder must exist as the root of path `/home/pi/Super-AIO` (unless you change the bindir in the saio-osd.py and all associated config files).
 This is done with `cd /home/pi ; git clone https://github.com/geebles/Super-AIO/`
