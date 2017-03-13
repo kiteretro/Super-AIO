@@ -27,7 +27,7 @@ fi
 
 #####################################################################
 # Vars
-BUILD="SAIO_"$(date +"%d%m%Y-%H%M%S")
+BUILD="SAIO_"$(date +"%Y%m%d-%H%M%S")
 INFILE=$1
 GITHUB="https://github.com/geebles/Super-AIO"
 GITHUBDIR="Super-AIO"
