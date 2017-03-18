@@ -129,6 +129,11 @@ void setup()
   // Set up BACKLIGHT
   pinMode(PIN_BL, OUTPUT);
 
+  // Set up LCD
+  pinMode(PIN_LCD_RESET, OUTPUT);
+  delay(10); // Hold low for at least 1ms
+  digitalWrite(PIN_LCD_RESET, HIGH);
+
   // Analogs
   pinMode(PIN_BTN_MODE, INPUT);
   pinMode(PIN_JOY_X, INPUT);
