@@ -133,6 +133,8 @@ void setup()
   pinMode(PIN_LCD_RESET, OUTPUT);
   delay(10); // Hold low for at least 1ms
   digitalWrite(PIN_LCD_RESET, HIGH);
+  delay(10);
+  pinMode(PIN_LCD_RESET, INPUT_PULLUP); // Low power pullup
 
   // Analogs
   pinMode(PIN_BTN_MODE, INPUT);
