@@ -59,6 +59,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(pi_lowb, GPIO.IN)
 GPIO.setup(pi_shdn, GPIO.IN)
 GPIO.setup(pi_overtemp, GPIO.OUT)
+GPIO.output(pi_overtemp, GPIO.HIGH)
 
 # Batt variables
 voltscale = 203.5 #ADJUST THIS
@@ -241,12 +242,12 @@ def checkTemperature():
   if (temperature_isover):
     if (temp < temperature_max - temperature_threshold):
       temperature_isover = False
-      GPIO.output(pi_overtemp, GPIO.LOW)
+      GPIO.output(pi_overtemp, GPIO.HIGH)
       logging.info("TEMP OK")
   else:
     if (temp > temperature_max):
       temperature_isover = True
-      GPIO.output(pi_overtemp, GPIO.HIGH)
+      GPIO.output(pi_overtemp, GPIO.LOW)
       logging.info("OVERTEMP")
   return temp
 
