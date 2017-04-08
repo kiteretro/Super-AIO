@@ -62,5 +62,5 @@
 #define BL_DOWN 1
 
 // EEPROM
-#define EEPROM_VERSION 2
+#define EEPROM_VERSION 3
 #define EEPROM_START 0

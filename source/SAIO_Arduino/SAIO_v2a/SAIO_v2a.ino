@@ -80,8 +80,8 @@ struct Config {
   uint8_t aud_val  = 1;
   uint8_t info_val = 0;
   // Joystick settings
-  uint16_t xmid = 0;
-  uint16_t ymid = 0;
+  int16_t xmid = 0;
+  int16_t ymid = 0;
   int16_t xmin  = 0;
   int16_t ymin  = 0;
   int16_t xmax  = 0;
@@ -667,8 +667,8 @@ void calibrateJoystick()
     uint16_t x = analogRead(PIN_JOY_X); delay(1);
     uint16_t y = analogRead(PIN_JOY_Y);
 
-    int16_t xmid = (xmin + xmax)/2;
-    int16_t ymid = (ymin + ymax)/2;
+    xmid = (xmin + xmax)/2;
+    ymid = (ymin + ymax)/2;
     
     int16_t nx = x - xmid;
     int16_t ny = y - ymid;
@@ -742,6 +742,7 @@ void calibrateJoystick()
   cfg.ymax = ymax;
   cfg.xmid = xmid;
   cfg.ymid = ymid;
+  cfg.dz = DEADZONE;
   cfg.iscalib = 1;
   eepromWrite();
 }
