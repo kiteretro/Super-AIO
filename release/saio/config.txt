@@ -61,9 +61,6 @@ overscan_scale=1
 #### GENERIC SETTINGS ####
 ##########################
 
-# Enable audio (loads snd_bcm2835)
-dtparam=audio=on
-
 # Disable low voltage warning when on 3.3v
 avoid_warnings=2
 

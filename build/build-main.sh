@@ -146,6 +146,9 @@ execute "chmod +x $PIHOMEDIR/$GITHUBDIR/release/tester/pngview"
 execute "dpkg -x $GITHUBDIR/release/saio/python-serial_2.6-1.1_all.deb $GITHUBDIR/python-serial"
 execute "cp -r $GITHUBDIR/python-serial/* $MOUNT"
 
+# Fix splashsreen sound
+execute "sed -i \"s/ *both/ alsa/\" $MOUNT/etc/init.d/asplashscreen"
+
 # Unmount
 execute "umount $MOUNT"
 
