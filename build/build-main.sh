@@ -149,6 +149,9 @@ execute "cp -r $GITHUBDIR/python-serial/* $MOUNT"
 # Fix splashsreen sound
 execute "sed -i \"s/ *both/ alsa/\" $MOUNT/etc/init.d/asplashscreen"
 
+# Fix N64 audio
+execute "sed -i \"s/mupen64plus-audio-omx/mupen64plus-audio-sdl/\" $MOUNT/opt/retropie/emulators/mupen64plus/bin/mupen64plus.sh"
+
 # Unmount
 execute "umount $MOUNT"
 

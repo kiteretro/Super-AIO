@@ -67,6 +67,9 @@ avoid_warnings=2
 # Enable safe shutdown
 dtoverlay=gpio-poweroff,gpiopin=22,active_low="y"
 
+# Disable onboard audio
+dtparam=audio=off
+
 #######################
 #### HDMI SETTINGS ####
 #######################
