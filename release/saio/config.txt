@@ -70,18 +70,21 @@ dtoverlay=gpio-poweroff,gpiopin=22,active_low="y"
 # Disable onboard audio
 dtparam=audio=off
 
+# SD overclock (ONLY IF SD SUPPORTS IT)
+#dtoverlay=sdtweak,overclock_50=100
+
 #######################
 #### HDMI SETTINGS ####
 #######################
 
-# # uncomment if hdmi display is not detected and composite is being output
-# hdmi_force_hotplug=1
+# uncomment if hdmi display is not detected and composite is being output
+#hdmi_force_hotplug=1
  
-# # uncomment to force a specific HDMI mode (here we are forcing 800x480!)
-# hdmi_group=2
-# hdmi_mode=1
-# hdmi_mode=87
-# hdmi_cvt=800 480 60 6 0 0 0
+# uncomment to force a specific HDMI mode (here we are forcing 800x480!)
+#hdmi_group=2
+#hdmi_mode=1
+#hdmi_mode=87
+#hdmi_cvt=800 480 60 6 0 0 0
 
 #######################
 #### DPI SETTINGS #####
