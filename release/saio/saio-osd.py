@@ -95,13 +95,13 @@ except Exception as e:
 # Set up configOSD file
 configOSD = ConfigParser()
 configOSD.add_section('protocol')
-configOSD.set('protocol', 'version', 1)
+configOSD.set('protocol', 'version', '1')
 configOSD.add_section('data')
 configOSD.set('data', 'voltage', '-.--')
 configOSD.set('data', 'temperature', '--.-')
-configOSD.set('data', 'showdebug', 1)
-configOSD.set('data', 'showwifi', 0)
-configOSD.set('data', 'showmute', 0)
+configOSD.set('data', 'showdebug', '1')
+configOSD.set('data', 'showwifi', '0')
+configOSD.set('data', 'showmute', '0')
 
 try:
   with open(ini_data_file, 'w') as configfile:
@@ -166,8 +166,8 @@ def checkLowb():
 
 # Read voltage
 def readVoltage():
-  ser.write('V')
-  voltVal = int(ser.readline().rstrip('\r\n'))
+  ser.write(b'V')
+  voltVal = int(ser.readline().decode('utf-8').rstrip('\r\n'))
   volt = int((( voltVal * voltscale * dacres + ( dacmax * 5 ) ) / (( dacres * resdivval ) / resdivmul)))
   
   logging.info("VoltVal [" + str(voltVal) + "]")
@@ -196,7 +196,7 @@ def getVoltagepercent(volt):
 
 # Read current
 def readCurrent():
-  ser.write('C')
+  ser.write(b'C')
   currVal = int(ser.readline().rstrip('\r\n'))
   curr = int((currVal * (dacres / (dacmax*10)) * currscale))
   
@@ -206,22 +206,22 @@ def readCurrent():
 
 # Read mode
 def readModeDebug():
-  ser.write('i')
-  debugVal = int(ser.readline().rstrip('\r\n'))
+  ser.write(b'i')
+  debugVal = int(ser.readline().decode('utf-8').rstrip('\r\n'))
   logging.info("Info    [" + str(debugVal) + "]")
   return debugVal
 
 # Read wifi
 def readModeWifi():
-  ser.write('w')
-  wifiVal = int(ser.readline().rstrip('\r\n'))
+  ser.write(b'w')
+  wifiVal = int(ser.readline().decode('utf-8').rstrip('\r\n'))
   logging.info("Wifi    [" + str(wifiVal) + "]")
   return wifiVal
 
 # Read mute
 def readModeMute():
-  ser.write('a')
-  audVal = int(ser.readline().rstrip('\r\n'))
+  ser.write(b'a')
+  audVal = int(ser.readline().decode('utf-8').rstrip('\r\n'))
   logging.info("Audio   [" + str(audVal) + "]")
   if (audVal):
     return 0
@@ -267,11 +267,11 @@ def doShutdown():
 # Create ini configOSD
 def createINI(volt, curr, temp, debug, wifi, mute, file):
   #configOSD.set('data', 'voltage', '{0:.2f}'.format(volt/100.00))
-  configOSD.set('data', 'voltage', volt)
-  configOSD.set('data', 'temperature', temp)
-  configOSD.set('data', 'showdebug', debug)
-  configOSD.set('data', 'showwifi', wifi)
-  configOSD.set('data', 'showmute', mute)
+  configOSD.set('data', 'voltage', str(volt))
+  configOSD.set('data', 'temperature', str(temp))
+  configOSD.set('data', 'showdebug', str(debug))
+  configOSD.set('data', 'showwifi', str(wifi))
+  configOSD.set('data', 'showmute', str(mute))
 
   with open(ini_data_file, 'w') as configfile:
     configOSD.write(configfile)
@@ -299,7 +299,7 @@ def clamp(n, minn, maxn):
 
 # Main loop
 try:
-  print "STARTED!"
+  print ("STARTED!")
   while 1:
     
     if (settings_shutdown):
