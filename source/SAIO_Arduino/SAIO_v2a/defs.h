@@ -40,27 +40,45 @@
 #define CR_CFG1 0x7
 
 // Button mappings
-#define BTN_UP 2
-#define BTN_DOWN 4
-#define BTN_LEFT 3
-#define BTN_RIGHT 5
-#define BTN_A 9
-#define BTN_B 8
-#define BTN_X 11
-#define BTN_Y 10
-#define BTN_START 7
+#define BTN_UP     2
+#define BTN_DOWN   4
+#define BTN_LEFT   3
+#define BTN_RIGHT  5
+#define BTN_A      9
+#define BTN_B      8
+#define BTN_X      11
+#define BTN_Y      10
+#define BTN_START  7
 #define BTN_SELECT 6
-#define BTN_L1 1
-#define BTN_L2 0
-#define BTN_R1 13
-#define BTN_R2 12
-#define BTN_A1 14
-#define BTN_A2 15
+#define BTN_L1     1
+#define BTN_L2     0
+#define BTN_R1     13
+#define BTN_R2     12
+#define BTN_A1     14
+#define BTN_A2     15
 
 // BACKLIGHT
-#define BL_UP 2
+#define BL_UP   2
 #define BL_DOWN 1
 
 // EEPROM
-#define EEPROM_VERSION 3
-#define EEPROM_START 0
+#define EEPROM_VERSION 4
+#define EEPROM_START   0
+
+// MISC
+#define LED_OFF 0
+#define LED_ON  1
+
+#define HARDWARE_05E1 1
+#define HARDWARE_06C  2
+
+#define MODECHECK_A0       1 //Read voltage on A0 to determine board power check
+#define MODECHECK_VBATHIGH 2 //Read the VBAT voltage to determine board power check, HIGH = OFF
+#define MODECHECK_VBATLOW  3 //Read the VBAT voltage to determine board power check, LOW = OFF
+#define MODECHECK_BOOTPIN  4 //Read a pin to check if booted or not
+
+#define LCD_SUCCESS "L"
+#define FAILED_TIMEOUT_NO_END "F1"
+#define FAILED_NOT_EVEN_ARGS  "F2"
+
+
