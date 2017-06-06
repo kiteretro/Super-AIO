@@ -1,4 +1,6 @@
-# Documentation
+# SAIO
+This directory contains only images to do with the SUPER AIO version of the board.
+
 ## Directories at this level
 * COMMON - Anything that is common across all versions of the SAIO
 * PI3 - Anything that is specific to doing a Pi3 build with a SAIO

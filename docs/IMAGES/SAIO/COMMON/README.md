@@ -1,4 +1,6 @@
-# Documentation
+# COMMON
+This directory contains anything that is common across all versions of the SAIO.
+
 ## Directories at this level
 * GBO_BACKBUTTONS
 * GBO_BUTTON_WELLS
