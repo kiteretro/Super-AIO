@@ -49,6 +49,7 @@ Trim the metal shell with a cutting disk. you could choose to not put the metal 
 
 ![Trim metal](https://github.com/geebles/Super-AIO/raw/master/docs/IMAGES/SAIO/PRODUCTS/LCD_640x480/9.jpg)
 
+### Fit LCD
 Connect up the adapter. When it goes inside the case it will be folded as shown in the image below:
 
 ![Adapter placement](https://github.com/geebles/Super-AIO/raw/master/docs/IMAGES/SAIO/PRODUCTS/LCD_640x480/10.jpg)
