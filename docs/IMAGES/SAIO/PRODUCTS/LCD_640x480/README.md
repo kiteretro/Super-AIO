@@ -59,3 +59,5 @@ If the trimmings have been done as per the previous steps, you should have a edg
 NOTE: In this sample fitting I cut into the BLACK stuff when trimming the LCD.. as you can see on the RIGHT half of the LCD it is only showing every other pixel! You have been warned!
 
 ![Sample alignment](https://github.com/geebles/Super-AIO/raw/master/docs/IMAGES/SAIO/PRODUCTS/LCD_640x480/11.jpg)
+
+![Quality](https://github.com/geebles/Super-AIO/raw/master/docs/IMAGES/SAIO/PRODUCTS/LCD_640x480/12.jpg)
