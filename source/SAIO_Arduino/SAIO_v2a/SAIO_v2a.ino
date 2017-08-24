@@ -99,6 +99,11 @@ volatile bool mode = 0;
 volatile uint16_t voltVal = 0;
 volatile uint16_t currVal = 0;
 
+//Trackball
+const int trackball_distance = 1; //How much to move the mouse
+volatile int8_t trackball_x = 0;
+volatile int8_t trackball_y = 0;
+
 // Button update state
 volatile byte state = LOW;
 
@@ -138,6 +143,14 @@ void setup()
   // When ON, we expect this pin to be the battery voltage (100/150k voltage divider)
   pinMode(PIN_VOLT, INPUT);
 
+  // Trackball
+#ifdef TRACKBALL
+  pinMode(PIN_TRACK_UP, INPUT_PULLUP);
+  pinMode(PIN_TRACK_DOWN, INPUT_PULLUP);
+  pinMode(PIN_TRACK_LEFT, INPUT_PULLUP);
+  pinMode(PIN_TRACK_RIGHT, INPUT_PULLUP);
+#endif
+
 #ifdef CONFIG_WIFI_DEFAULT_OFF
   cfg.wifi_val = 0;
 #endif
@@ -168,16 +181,28 @@ void setup()
   
   // Sends a clean report to the host. This is important on any Arduino type.
   Gamepad.begin();
+
+#ifdef TRACKBALL
+  Mouse.begin();
+#endif
 }
 
 //--------------------------------------------------------------------------------------
 // MAIN LOOP
 void loop()
 {
+  // Read the trackball position fast
+#ifdef TRACKBALL
+  static uint32_t tnow0 = 0;
+  if (millis() - tnow0 > 2) {
+    readTrackball();
+    tnow0 = millis();
+  }
+#endif
   
   // Button loop (62.5Hz)
-  static uint32_t tnow = 0;
-  if (millis() - tnow > 16) {
+  static uint32_t tnow1 = 0;
+  if (millis() - tnow1 > 16) {
 
     // Led ON for debug
     led(LED_ON);
@@ -191,10 +216,13 @@ void loop()
     // Set modes and aux things
     setModes();
 
+    // Set trackball
+    setTrackball();
+
     // Led OFF for debug
     led(LED_OFF);
     
-    tnow = millis();
+    tnow1 = millis();
   }
 
   // Misc functions (5Hz)

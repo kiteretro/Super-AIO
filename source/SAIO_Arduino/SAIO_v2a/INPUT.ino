@@ -47,6 +47,25 @@ void readButtons()
   }
 }
 
+// READ TRACKBALL
+void readTrackball() {
+
+#ifdef TRACKBALL
+  if (!digitalRead(PIN_TRACK_UP)) {
+    trackball_x += trackball_distance;
+  } else if (!digitalRead(PIN_TRACK_DOWN)) {
+    trackball_x -= trackball_distance;
+  }
+
+  if (!digitalRead(PIN_TRACK_LEFT)) {
+    trackball_y += trackball_distance;
+  } else if (!digitalRead(PIN_TRACK_RIGHT)) {
+    trackball_y -= trackball_distance;
+  }
+#endif
+
+}
+
 //--------------------------------------------------------------------------------------
 // READ MODE
 void readMode()
@@ -226,6 +245,18 @@ void setGamepad()
     Gamepad.write();
   }
 #endif
+}
+
+void setTrackball() {
+
+#ifdef TRACKBALL
+  if (trackball_x != 0 ||  trackball_y != 0) {
+    Mouse.move(trackball_x, trackball_y);
+    trackball_x = 0;
+    trackball_y = 0;
+  }
+#endif
+  
 }
 
 //--------------------------------------------------------------------------------------

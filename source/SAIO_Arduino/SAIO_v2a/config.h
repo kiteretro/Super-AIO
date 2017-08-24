@@ -29,11 +29,13 @@
 //#define NOMODE //Disable the use of the 'mode' button completely
 //#define NOJOY //Disable the joystick
 //#define CUSTOMLCD //Custom 640x480 LCD support
+#define TRACKBALL
 
 // Hardware bits
 #define PIN_LCD_CS 5
 #define PIN_LCD_RESET 13
 #define PIN_LCD_SDO 16
+#define PIN_LCD_SDI 14
 #define PIN_LCD_CLK 15
 #define PIN_VOLT A2
 #define PIN_CURR A3
@@ -50,6 +52,13 @@
 #define PIN_JOY_Y A11 //D12
 #define PIN_JOY2_X A0
 #define PIN_JOY2_Y A1
+#define PIN_TX 1
+#define PIN_RX 0
+
+#define PIN_TRACK_UP    PIN_LCD_SDO
+#define PIN_TRACK_DOWN  PIN_LCD_SDI
+#define PIN_TRACK_LEFT  PIN_TX
+#define PIN_TRACK_RIGHT PIN_RX
 
 // Custom hardware bits
 #if HARDWARE == HARDWARE_05E1
@@ -69,6 +78,10 @@
 // Error check
 #ifndef MODECHECK
 #error "ERROR: MODECHECK not defined! You probably haven't selected the correct hardware in config.h"
+#endif
+
+#if defined TRACKBALL && defined CUSTOMLCD
+#error "ERROR: Cannot define TRACKBALL and CUSTOMLCD at the same time"
 #endif
 
 // Joystick settings
