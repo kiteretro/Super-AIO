@@ -122,8 +122,7 @@ void setBl(uint8_t t) {
 
 //--------------------------------------------------------------------------------------
 // WIFI
-void setWifi(bool val)
-{
+void setWifi(bool val) {
   if (val) {
     cfg.wifi_val = 1;
     pinMode(PIN_WIFI, INPUT);
@@ -145,8 +144,7 @@ void setWifi(bool val)
 
 //--------------------------------------------------------------------------------------
 // AUDIO
-void setAud(bool val)
-{
+void setAud(bool val) {
   if (val) {
     cfg.aud_val = 1;
     pinMode(PIN_AUD, INPUT);
@@ -166,8 +164,7 @@ void setAud(bool val)
 
 //--------------------------------------------------------------------------------------
 // INFO
-void setInfo(bool val)
-{
+void setInfo(bool val) {
   if (val) {
     cfg.info_val = 1;
 #ifdef DEBUG

@@ -29,6 +29,7 @@
 //#define NOMODE //Disable the use of the 'mode' button completely
 //#define NOJOY //Disable the joystick
 //#define CUSTOMLCD //Custom 640x480 LCD support
+//#define JOYSTICK2
 
 // Hardware bits
 #define PIN_LCD_CS 5
@@ -39,7 +40,7 @@
 #define PIN_CURR A3
 #define PIN_LOWBATT A4
 #define PIN_BTN_MODE A5
-#define PIN_JOY_X A6 //D4
+#define PIN_JOY1_X A6 //D4
 #define PIN_INT 7 //TCA9555 interrupt
 #define PIN_LED1 6
 #define PIN_LED2 8
@@ -47,7 +48,7 @@
 #define PIN_WIFI 9
 #define PIN_BL 10
 #define PIN_AUD 11
-#define PIN_JOY_Y A11 //D12
+#define PIN_JOY1_Y A11 //D12
 #define PIN_JOY2_X A0
 #define PIN_JOY2_Y A1
 
@@ -74,8 +75,10 @@
 // Joystick settings
 #define CALIBTIME 10      // Time in seconds to calibrate the joystick
 #define DEADZONE 50       // ADC value for 'deadzone' of joystick
-//#define INVERT_X        // Invert the X axis
-#define INVERT_Y          // Invert the Y axis
+//#define INVERT_X1        // Invert the X1 axis
+#define INVERT_Y1        // Invert the Y1 axis
+//#define INVERT_X2        // Invert the X2 axis
+#define INVERT_Y2        // Invert the Y2 axis
 
 // Backlight settings
 #define BL_MIN 0          // 0 = FULL ON

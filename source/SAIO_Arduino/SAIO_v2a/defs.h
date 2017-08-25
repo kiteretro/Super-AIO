@@ -62,7 +62,7 @@
 #define BL_DOWN 1
 
 // EEPROM
-#define EEPROM_VERSION 4
+#define EEPROM_VERSION 5
 #define EEPROM_START   0
 
 // MISC
@@ -77,7 +77,7 @@
 #define MODECHECK_VBATLOW  3 //Read the VBAT voltage to determine board power check, LOW = OFF
 #define MODECHECK_BOOTPIN  4 //Read a pin to check if booted or not
 
-#define LCD_SUCCESS "L"
+#define LCD_SUCCESS "LS"
 #define FAILED_TIMEOUT_NO_END "F1"
 #define FAILED_NOT_EVEN_ARGS  "F2"
 

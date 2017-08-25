@@ -23,8 +23,7 @@
 
 //--------------------------------------------------------------------------------------
 // READ BUTTONS
-void readButtons()
-{
+void readButtons() {
   // Read
   uint8_t pos = 0;
   Wire.requestFrom(ADDR, 2); // request 2 bytes from slave device
@@ -49,8 +48,7 @@ void readButtons()
 
 //--------------------------------------------------------------------------------------
 // READ MODE
-void readMode()
-{
+void readMode() {
   uint16_t btnVal = analogRead(PIN_BTN_MODE);
 
 #ifdef DEBUG
@@ -74,8 +72,7 @@ void readMode()
 
 //--------------------------------------------------------------------------------------
 // SET GAMEPAD
-void setGamepad()
-{
+void setGamepad() {
   //DPAD
   Gamepad.dPad1(GAMEPAD_DPAD_CENTERED);
 
@@ -179,13 +176,14 @@ void setGamepad()
     Gamepad.write();
   }
 
-  // JOYSTICK
-  if (cfg.iscalib) {
-    uint16_t x = analogRead(PIN_JOY_X);
-    uint16_t y = analogRead(PIN_JOY_Y);
+#ifndef NOJOY
+  // JOYSTICK 1
+  if (cfg.iscalib1) {
+    uint16_t x = analogRead(PIN_JOY1_X);
+    uint16_t y = analogRead(PIN_JOY1_Y);
     
-    int16_t xx = x-cfg.xmid;
-    int16_t yy = y-cfg.ymid;
+    int16_t xx = x-cfg.xmid1;
+    int16_t yy = y-cfg.ymid1;
 
     if (xx > cfg.dz) {
       xx -= cfg.dz;
@@ -195,10 +193,10 @@ void setGamepad()
       xx = 0;
     }
 
-#ifdef INVERT_X
-    xx = constrain(map(xx, cfg.xmin+50, cfg.xmax-50, 32678, -32678), -32678, 32678);
+#ifdef INVERT_X1
+    xx = constrain(map(xx, cfg.xmin1+50, cfg.xmax1-50, 32678, -32678), -32678, 32678);
 #else
-    xx = constrain(map(xx, cfg.xmin+50, cfg.xmax-50, -32678, 32678), -32678, 32678);
+    xx = constrain(map(xx, cfg.xmin1+50, cfg.xmax1-50, -32678, 32678), -32678, 32678);
 #endif
 
     if (yy > cfg.dz) {
@@ -209,10 +207,10 @@ void setGamepad()
       yy = 0;
     }
 
-#ifdef INVERT_Y
-    yy = constrain(map(yy, cfg.ymin+50, cfg.ymax-50, 32678, -32678), -32678, 32678);
+#ifdef INVERT_Y1
+    yy = constrain(map(yy, cfg.ymin1+50, cfg.ymax1-50, 32678, -32678), -32678, 32678);
 #else
-    yy = constrain(map(yy, cfg.ymin+50, cfg.ymax-50, -32678, 32678), -32678, 32678);
+    yy = constrain(map(yy, cfg.ymin1+50, cfg.ymax1-50, -32678, 32678), -32678, 32678);
 #endif
 
     Gamepad.xAxis(xx);
@@ -221,7 +219,52 @@ void setGamepad()
     Gamepad.xAxis(0);
     Gamepad.yAxis(0);
   }
-#ifndef NOJOY
+
+  // JOYSTICK 2
+#ifdef JOYSTICK2
+  if (cfg.iscalib2) {
+    uint16_t x = analogRead(PIN_JOY2_X);
+    uint16_t y = analogRead(PIN_JOY2_Y);
+    
+    int16_t xx = x-cfg.xmid2;
+    int16_t yy = y-cfg.ymid2;
+
+    if (xx > cfg.dz) {
+      xx -= cfg.dz;
+    } else if (xx<(cfg.dz-cfg.dz-cfg.dz)) {
+      xx += cfg.dz;
+    } else {
+      xx = 0;
+    }
+
+#ifdef INVERT_X2
+    xx = constrain(map(xx, cfg.xmin2+50, cfg.xmax2-50, 32678, -32678), -32678, 32678);
+#else
+    xx = constrain(map(xx, cfg.xmin2+50, cfg.xmax2-50, -32678, 32678), -32678, 32678);
+#endif
+
+    if (yy > cfg.dz) {
+      yy -= cfg.dz;
+    } else if (yy<(cfg.dz-cfg.dz-cfg.dz)) {
+      yy += cfg.dz;
+    } else {
+      yy = 0;
+    }
+
+#ifdef INVERT_Y2
+    yy = constrain(map(yy, cfg.ymin2+50, cfg.ymax2-50, 32678, -32678), -32678, 32678);
+#else
+    yy = constrain(map(yy, cfg.ymin2+50, cfg.ymax2-50, -32678, 32678), -32678, 32678);
+#endif
+
+    Gamepad.rxAxis(xx);
+    Gamepad.ryAxis(yy);
+  } else {
+    Gamepad.rxAxis(0);
+    Gamepad.ryAxis(0);
+  }
+#endif
+
   if (!mode) {
     Gamepad.write();
   }
@@ -230,8 +273,7 @@ void setGamepad()
 
 //--------------------------------------------------------------------------------------
 // SET MODES
-void setModes()
-{
+void setModes() {
   // WRITE
   if (mode) {
     if (btns[BTN_UP]) {
@@ -271,8 +313,7 @@ void setModes()
 
 //--------------------------------------------------------------------------------------
 // ANALOG DATA
-void readAnalogData()
-{
+void readAnalogData() {
   voltVal = analogRead(PIN_VOLT);
   delay(1);
   currVal = analogRead(PIN_CURR);
@@ -289,15 +330,13 @@ void readAnalogData()
 
 //--------------------------------------------------------------------------------------
 // INTERRUPT FOR I2C
-void change()
-{
+void change() {
   state = HIGH;
 }
 
 //--------------------------------------------------------------------------------------
 // CALIBRATE JOYSTICK
-void calibrateJoystick()
-{
+void calibrateJoystick() {
   if (!btns[BTN_START]) {
     return;
   }
@@ -307,22 +346,41 @@ void calibrateJoystick()
   Serial.println("CALIB");
 #endif
   
-  // Set up the vars
-  uint16_t xmid = 0;
-  uint16_t ymid = 0;
-  int16_t xmin = 0;
-  int16_t ymin = 0;
-  int16_t xmax = 0;
-  int16_t ymax = 0;
+  // Set up the vars 1
+  uint16_t xmid1 = 0;
+  uint16_t ymid1 = 0;
+  int16_t xmin1 = 0;
+  int16_t ymin1 = 0;
+  int16_t xmax1 = 0;
+  int16_t ymax1 = 0;
 
-  uint16_t x = analogRead(PIN_JOY_X);
-  xmin = x;
-  xmax = x;
-  xmid = x;
-  uint16_t y = analogRead(PIN_JOY_Y);
-  ymin = y;
-  ymax = y;
-  ymid = y;
+  uint16_t x1 = analogRead(PIN_JOY1_X);
+  xmin1 = x1;
+  xmax1 = x1;
+  xmid1 = x1;
+  uint16_t y1 = analogRead(PIN_JOY1_Y);
+  ymin1 = y1;
+  ymax1 = y1;
+  ymid1 = y1;
+
+#ifdef JOYSTICK2
+  // Set up the vars 2
+  uint16_t xmid2 = 0;
+  uint16_t ymid2 = 0;
+  int16_t xmin2 = 0;
+  int16_t ymin2 = 0;
+  int16_t xmax2 = 0;
+  int16_t ymax2 = 0;
+
+  uint16_t x2 = analogRead(PIN_JOY2_X);
+  xmin2 = x2;
+  xmax2 = x2;
+  xmid2 = x2;
+  uint16_t y2 = analogRead(PIN_JOY2_Y);
+  ymin2 = y2;
+  ymax2 = y2;
+  ymid2 = y2;
+#endif
 
   uint32_t tnow = millis();
   // Calibrate mid, min, and max for X secs
@@ -330,48 +388,95 @@ void calibrateJoystick()
   while(millis() - tnow < CALIBTIME * 1000) {
     
     led(LED_ON);
+
+    // JOY1
+    uint16_t x1 = analogRead(PIN_JOY1_X); delay(1);
+    uint16_t y1 = analogRead(PIN_JOY1_Y);
+
+    xmid1 = (xmin1 + xmax1)/2;
+    ymid1 = (ymin1 + ymax1)/2;
     
-    uint16_t x = analogRead(PIN_JOY_X); delay(1);
-    uint16_t y = analogRead(PIN_JOY_Y);
+    int16_t nx1 = x1 - xmid1;
+    int16_t ny1 = y1 - ymid1;
 
-    xmid = (xmin + xmax)/2;
-    ymid = (ymin + ymax)/2;
-    
-    int16_t nx = x - xmid;
-    int16_t ny = y - ymid;
+    if (x1 < xmin1)
+      xmin1 = x1;
+    if (y1 < ymin1)
+      ymin1 = y1;
 
-    if (x < xmin)
-      xmin = x;
-    if (y < ymin)
-      ymin = y;
-
-    if (x > xmax)
-      xmax = x;
-    if (y > ymax)
-      ymax = y;
+    if (x1 > xmax1)
+      xmax1 = x1;
+    if (y1 > ymax1)
+      ymax1 = y1;
 
 #ifdef DEBUG
-    Serial.print("XM:");
-    Serial.print(xmid);
-    Serial.print(" YM:");
-    Serial.print(ymid);
-    Serial.print(" X:");
-    Serial.print(x);
-    Serial.print(" Y:");
-    Serial.print(y);
-    Serial.print(" NX:");
-    Serial.print(nx);
-    Serial.print(" NY:");
-    Serial.print(ny);
-    Serial.print(" XMI:");
-    Serial.print(xmin);
-    Serial.print(" YMI:");
-    Serial.print(ymin);
-    Serial.print(" XMA:");
-    Serial.print(xmax);
-    Serial.print(" YMA:");
-    Serial.print(ymax);
+    Serial.print("XM1:");
+    Serial.print(xmid1);
+    Serial.print(" YM1:");
+    Serial.print(ymid1);
+    Serial.print(" X1:");
+    Serial.print(x1);
+    Serial.print(" Y1:");
+    Serial.print(y1);
+    Serial.print(" NX1:");
+    Serial.print(nx1);
+    Serial.print(" NY1:");
+    Serial.print(ny1);
+    Serial.print(" XMI1:");
+    Serial.print(xmin1);
+    Serial.print(" YMI1:");
+    Serial.print(ymin1);
+    Serial.print(" XMA1:");
+    Serial.print(xmax1);
+    Serial.print(" YMA1:");
+    Serial.print(ymax1);
     Serial.println();
+#endif
+
+    // JOY 2
+#ifdef JOYSTICK2
+    uint16_t x2 = analogRead(PIN_JOY2_X); delay(1);
+    uint16_t y2 = analogRead(PIN_JOY2_Y);
+
+    xmid2 = (xmin2 + xmax2)/2;
+    ymid2 = (ymin2 + ymax2)/2;
+    
+    int16_t nx2 = x2 - xmid2;
+    int16_t ny2 = y2 - ymid2;
+
+    if (x2 < xmin2)
+      xmin2 = x2;
+    if (y2 < ymin2)
+      ymin2 = y2;
+
+    if (x2 > xmax2)
+      xmax2 = x2;
+    if (y2 > ymax2)
+      ymax2 = y2;
+
+#ifdef DEBUG
+    Serial.print("XM2:");
+    Serial.print(xmid2);
+    Serial.print(" YM2:");
+    Serial.print(ymid2);
+    Serial.print(" X2:");
+    Serial.print(x2);
+    Serial.print(" Y2:");
+    Serial.print(y2);
+    Serial.print(" NX2:");
+    Serial.print(nx2);
+    Serial.print(" NY2:");
+    Serial.print(ny2);
+    Serial.print(" XMI2:");
+    Serial.print(xmin2);
+    Serial.print(" YMI2:");
+    Serial.print(ymin2);
+    Serial.print(" XMA2:");
+    Serial.print(xmax2);
+    Serial.print(" YMA2:");
+    Serial.print(ymax2);
+    Serial.println();
+#endif
 #endif
     
     delay(100);
@@ -379,37 +484,71 @@ void calibrateJoystick()
     delay(100);
   }
 
-  xmin = xmin - xmid;
-  ymin = ymin - ymid;
-  xmax = xmax - xmid;
-  ymax = ymax - ymid;
+  // JOY 1
+  xmin1 = xmin1 - xmid1;
+  ymin1 = ymin1 - ymid1;
+  xmax1 = xmax1 - xmid1;
+  ymax1 = ymax1 - ymid1;
 
 #ifdef DEBUG
   Serial.println("CALIB COMPLETE");
-  Serial.print("XM:");
-  Serial.print(xmid);
-  Serial.print(" YM:");
-  Serial.print(ymid);
-  Serial.print(" XMI:");
-  Serial.print(xmin);
-  Serial.print(" YMI:");
-  Serial.print(ymin);
-  Serial.print(" XMA:");
-  Serial.print(xmax);
-  Serial.print(" YMA:");
-  Serial.print(ymax);
+  Serial.print("XM1:");
+  Serial.print(xmid1);
+  Serial.print(" YM1:");
+  Serial.print(ymid1);
+  Serial.print(" XMI1:");
+  Serial.print(xmin1);
+  Serial.print(" YMI1:");
+  Serial.print(ymin1);
+  Serial.print(" XMA1:");
+  Serial.print(xmax1);
+  Serial.print(" YMA1:");
+  Serial.print(ymax1);
   Serial.println();
 #endif
 
-  // Save values
-  cfg.xmin = xmin;
-  cfg.ymin = ymin;
-  cfg.xmax = xmax;
-  cfg.ymax = ymax;
-  cfg.xmid = xmid;
-  cfg.ymid = ymid;
+  cfg.xmin1 = xmin1;
+  cfg.ymin1 = ymin1;
+  cfg.xmax1 = xmax1;
+  cfg.ymax1 = ymax1;
+  cfg.xmid1 = xmid1;
+  cfg.ymid1 = ymid1;
+  cfg.iscalib1 = 1;
+  
+  // JOY 2
+#ifdef JOYSTICK2
+  xmin2 = xmin2 - xmid2;
+  ymin2 = ymin2 - ymid2;
+  xmax2 = xmax2 - xmid2;
+  ymax2 = ymax2 - ymid2;
+
+#ifdef DEBUG
+  Serial.print("XM2:");
+  Serial.print(xmid2);
+  Serial.print(" YM2:");
+  Serial.print(ymid2);
+  Serial.print(" XMI2:");
+  Serial.print(xmin2);
+  Serial.print(" YMI2:");
+  Serial.print(ymin2);
+  Serial.print(" XMA2:");
+  Serial.print(xmax2);
+  Serial.print(" YMA2:");
+  Serial.print(ymax2);
+  Serial.println();
+#endif
+
+  cfg.xmin2 = xmin2;
+  cfg.ymin2 = ymin2;
+  cfg.xmax2 = xmax2;
+  cfg.ymax2 = ymax2;
+  cfg.xmid2 = xmid2;
+  cfg.ymid2 = ymid2;
+  cfg.iscalib2 = 1;
+#endif
+
+  // SAVE ALL
   cfg.dz = DEADZONE;
-  cfg.iscalib = 1;
   eepromWrite();
 }
 

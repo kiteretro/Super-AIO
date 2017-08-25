@@ -80,14 +80,21 @@ struct Config {
   uint8_t aud_val  = 1;
   uint8_t info_val = 0;
   // Joystick settings
-  int16_t xmid = 0;
-  int16_t ymid = 0;
-  int16_t xmin  = 0;
-  int16_t ymin  = 0;
-  int16_t xmax  = 0;
-  int16_t ymax  = 0;
+  int16_t xmid1 = 0;
+  int16_t ymid1 = 0;
+  int16_t xmin1 = 0;
+  int16_t ymin1 = 0;
+  int16_t xmax1 = 0;
+  int16_t ymax1 = 0;
+  int16_t xmid2 = 0;
+  int16_t ymid2 = 0;
+  int16_t xmin2 = 0;
+  int16_t ymin2 = 0;
+  int16_t xmax2 = 0;
+  int16_t ymax2 = 0;
   int16_t dz    = DEADZONE;
-  bool iscalib  = 0;
+  bool iscalib1 = 0;
+  bool iscalib2 = 0;
 } cfg;
 
 // Button array
@@ -104,8 +111,7 @@ volatile byte state = LOW;
 
 //--------------------------------------------------------------------------------------
 // MAIN SETUP
-void setup()
-{
+void setup() {
   // Startup delay
   delay(1000);
   
@@ -130,8 +136,12 @@ void setup()
 
   // Analogs
   pinMode(PIN_BTN_MODE, INPUT);
-  pinMode(PIN_JOY_X, INPUT);
-  pinMode(PIN_JOY_Y, INPUT);
+  pinMode(PIN_JOY1_X, INPUT);
+  pinMode(PIN_JOY1_Y, INPUT);
+#ifdef JOYSTICK2
+  pinMode(PIN_JOY2_X, INPUT);
+  pinMode(PIN_JOY2_Y, INPUT);
+#endif
   pinMode(PIN_CURR, INPUT);
   // Volt pin is special, we might use this to determine if we are OFF or ON..
   // When OFF, we expect this pin to be at max (1023)
@@ -172,8 +182,7 @@ void setup()
 
 //--------------------------------------------------------------------------------------
 // MAIN LOOP
-void loop()
-{
+void loop() {
   
   // Button loop (62.5Hz)
   static uint32_t tnow = 0;
@@ -229,8 +238,7 @@ void loop()
 
 //--------------------------------------------------------------------------------------
 // PROCESS SERIAL
-void processSerial()
-{
+void processSerial() {
   if (Serial.available() > 0) {
     
     // read the incoming byte:
