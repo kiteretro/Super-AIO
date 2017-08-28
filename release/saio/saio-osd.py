@@ -35,10 +35,11 @@ except ImportError:
   from ConfigParser import ConfigParser  # ver. < 3.0
 
 # Config variables
-bin_dir         = '/home/pi/Super-AIO/release/saio/osd/'
-ini_data_file   = bin_dir + 'data.ini'
-ini_config_file = bin_dir + 'config.ini'
-osd_path        = bin_dir + 'saio-osd'
+bin_dir         = '/home/pi/Super-AIO/release/saio/'
+ini_data_file   = bin_dir + 'osd/data.ini'
+ini_config_file = bin_dir + 'osd/config.ini'
+osd_path        = bin_dir + 'osd/saio-osd'
+rfkill_path     = bin_dir + 'rfkill/rfkill'
 config_file     = '/boot/config-saio.txt'
 
 # Hardware variables
@@ -236,9 +237,9 @@ def readModeWifi():
       wifi_state = 'ON'
       logging.info("Wifi    [ENABLING]")
       try:
-        out = subprocess.check_output([ 'sudo', 'rfkill', 'unblock', 'wifi' ])
+        out = subprocess.check_output([ 'sudo', rfkill_path, 'unblock', 'wifi' ])
         logging.info("Wifi    [" + str(out) + "]")
-        out = subprocess.check_output([ 'sudo', 'rfkill', 'unblock', 'bluetooth' ])
+        out = subprocess.check_output([ 'sudo', rfkill_path, 'unblock', 'bluetooth' ])
         logging.info("BT      [" + str(out) + "]")
       except Exception, e:
         logging.info("Wifi    : " + str(e.output))
@@ -266,9 +267,9 @@ def readModeWifi():
       wifi_state = 'OFF'
       logging.info("Wifi    [DISABLING]")
       try:
-        out = subprocess.check_output([ 'sudo', 'rfkill', 'block', 'wifi' ])
+        out = subprocess.check_output([ 'sudo', rfkill_path, 'block', 'wifi' ])
         logging.info("Wifi    [" + str(out) + "]")
-        out = subprocess.check_output([ 'sudo', 'rfkill', 'block', 'bluetooth' ])
+        out = subprocess.check_output([ 'sudo', rfkill_path, 'block', 'bluetooth' ])
         logging.info("BT      [" + str(out) + "]")
       except Exception, e:
         logging.info("Wifi    : " + str(e.output))

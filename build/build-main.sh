@@ -154,14 +154,12 @@ execute "chown giles:crontab $MOUNT/var/spool/cron/crontabs/pi"
 # Chmod required in p2
 execute "chmod +x $PIHOMEDIR/$GITHUBDIR/release/saio/osd/saio-osd"
 execute "chmod +x $PIHOMEDIR/$GITHUBDIR/release/saio/flash/flash.sh"
+execute "chmod +x $PIHOMEDIR/$GITHUBDIR/release/saio/rfkill/rfkill"
 execute "chmod +x $PIHOMEDIR/$GITHUBDIR/release/tester/pngview"
 
 # Install python-serial
 execute "dpkg -x $GITHUBDIR/release/saio/python-serial_2.6-1.1_all.deb $GITHUBDIR/python-serial"
 execute "cp -r $GITHUBDIR/python-serial/* $MOUNT"
-
-# Install rfkill
-execute "dpkg -x $GITHUBDIR/release/saio/rfkill_0.5-1_armhf.deb $MOUNT"
 
 # Fix splashsreen sound
 execute "sed -i \"s/ *both/ alsa/\" $MOUNT/etc/init.d/asplashscreen"
