@@ -165,6 +165,7 @@ execute "dpkg -x $GITHUBDIR/release/saio/rfkill_0.5-1_armhf.deb $MOUNT"
 
 # Fix splashsreen sound
 execute "sed -i \"s/ *both/ alsa/\" $MOUNT/etc/init.d/asplashscreen"
+execute "sed -i \"s/ -b/ -o alsa -b/\" $MOUNT/home/pi/RetroPie-Setup/scriptmodules/supplementary/splashscreen.sh"
 
 # Fix N64 audio
 execute "sed -i \"s/mupen64plus-audio-omx/mupen64plus-audio-sdl/\" $MOUNT/opt/retropie/emulators/mupen64plus/bin/mupen64plus.sh"
