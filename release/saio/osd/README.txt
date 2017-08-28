@@ -1,9 +1,9 @@
-Version: OSD_20170223_1
+Version: OSD_20170826_1
 Author : Giles Burgess
 
 The OSD service is launched with:
 
-./osd -d <ini file for data> -c <ini file for config>
+./saio-osd -d <ini file for data> -c <ini file for config>
 
 Where:
 ini file for data   : An INI file that contains the data to display
