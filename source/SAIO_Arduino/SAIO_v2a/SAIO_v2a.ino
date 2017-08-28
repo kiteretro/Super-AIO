@@ -102,6 +102,11 @@ volatile bool btns[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 volatile uint8_t btns_char[2] = {0,0};
 volatile bool mode = 0;
 
+// Button freeze mode
+volatile uint8_t btns_char_last[2] = {0,0};
+uint32_t tfrozen = 0;
+bool isfrozen = 0;
+
 //Analog
 volatile uint16_t voltVal = 0;
 volatile uint16_t currVal = 0;
@@ -194,11 +199,20 @@ void loop() {
     // Read Buttons
     readButtons();
 
-    // Set gamepad buttons (USB)
-    setGamepad();
+    // If not frozen
+    if (!isfrozen) {
 
-    // Set modes and aux things
-    setModes();
+      // Set gamepad buttons (USB)
+      setGamepad();
+  
+      // Set modes and aux things
+      setModes();
+
+    } else { //reset frozen counter
+      if (millis() - tfrozen > FREEZE_DURATION) {
+        isfrozen = 0;
+      }
+    }
 
     // Led OFF for debug
     led(LED_OFF);
@@ -212,6 +226,12 @@ void loop() {
 
     // See if mode presses
     readMode();
+
+    // Reset last frozen buttons
+    if (mode) {
+      btns_char_last[0] = 0;
+      btns_char_last[1] = 0;
+    }
 
     // Check serial console
     processSerial();
@@ -240,40 +260,62 @@ void loop() {
 // PROCESS SERIAL
 void processSerial() {
   if (Serial.available() > 0) {
+
+    // temporary var
+    uint8_t tmp = 0;
     
     // read the incoming byte:
     char in = Serial.read();
 
     switch (in) {
-      case 'V':
+      case 'V': //voltage val (0-1023)
         Serial.print(voltVal);
         break;
-      case 'C':
+      case 'C': //current val (0-1023)
         Serial.print(currVal);
         break;
-      case 'i':
+      case 'i': //is info (0-1)
         Serial.print(cfg.info_val);
         break;
-      case 'w':
+      case 'w': //is wifi (0-1)
         Serial.print(cfg.wifi_val);
         break;
-      case 'a':
+      case 'a': //is audio (0-1)
         Serial.print(cfg.aud_val);
         break;
-      case 'b':
+      case 'b'://button state NOW (HEXHEX)
         Serial.write(btns_char[0]);
         Serial.write(btns_char[1]);
         break;
-      case 'L':
+      case 'B': //button last full state (HEXHEX) also freezes USB
+        Serial.write(btns_char_last[0]);
+        Serial.write(btns_char_last[1]);
+        btns_char_last[0] = 0;
+        btns_char_last[1] = 0;
+        tfrozen = millis();
+        isfrozen = 1;
+        break;
+      case 'r': //reset button last full state
+        btns_char_last[0] = 0;
+        btns_char_last[1] = 0;
+        Serial.print(1);
+        break;
+      case 's': //get status (b[][][][][][AUD][WIFI][MODE])
+        bitWrite(tmp, STATUS_MODE, mode);
+        bitWrite(tmp, STATUS_WIFI, mode);
+        bitWrite(tmp, STATUS_AUD, mode);
+        Serial.write(tmp);
+        break;
+      case 'L': //lcd serial input
         if (lcdSerial()) {
           Serial.print(LCD_SUCCESS);
         }
         break;
-      case 'l':
+      case 'l': //lcd init
         lcdInit();
         Serial.print(1);
         break;
-      default:
+      default: //error
         Serial.print('?');
       break;
     }

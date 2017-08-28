@@ -81,4 +81,7 @@
 #define FAILED_TIMEOUT_NO_END "F1"
 #define FAILED_NOT_EVEN_ARGS  "F2"
 
+#define STATUS_MODE 0
+#define STATUS_WIFI 1
+#define STATUS_AUD  2
 
