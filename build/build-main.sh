@@ -27,6 +27,7 @@ fi
 
 #####################################################################
 # Vars
+USER=$(users)
 BUILD="SAIO_"$(date +"%Y%m%d-%H%M%S")
 INFILE=$1
 GITHUB="https://github.com/geebles/Super-AIO"
@@ -138,18 +139,18 @@ execute "mount -o loop,offset=63963136 $OUTFILE $MOUNT"
 
 # Copy required to p2
 execute "cp -r $GITHUBDIR $PIHOMEDIR"
-execute "chown -R giles:giles $PIHOMEDIR"
+execute "chown -R $USER:$USER $PIHOMEDIR"
 execute "cp $GITHUBDIR/release/saio/asound.conf $MOUNT/etc/asound.conf"
 
 # Copy autostart
 execute "mv $MOUNT/opt/retropie/configs/all/autostart.sh $MOUNT/opt/retropie/configs/all/autostart_OLD.sh"
 execute "cp $GITHUBDIR/release/saio/autostart.sh $MOUNT/opt/retropie/configs/all/autostart.sh"
-execute "chown giles:giles $MOUNT/opt/retropie/configs/all/autostart.sh"
+execute "chown $USER:$USER $MOUNT/opt/retropie/configs/all/autostart.sh"
 
 # Copy cron
 execute "echo '$CRONRAW' > $MOUNT/var/spool/cron/crontabs/pi"
 execute "chmod 600 $MOUNT/var/spool/cron/crontabs/pi"
-execute "chown giles:crontab $MOUNT/var/spool/cron/crontabs/pi"
+execute "chown $USER:crontab $MOUNT/var/spool/cron/crontabs/pi"
 
 # Chmod required in p2
 execute "chmod +x $PIHOMEDIR/$GITHUBDIR/release/saio/osd/saio-osd"
