@@ -26,6 +26,7 @@ import time
 import os,signal,sys
 import serial
 import subprocess
+import re
 import logging
 import logging.handlers
 try:
@@ -37,7 +38,7 @@ except ImportError:
 bin_dir         = '/home/pi/Super-AIO/release/saio/osd/'
 ini_data_file   = bin_dir + 'data.ini'
 ini_config_file = bin_dir + 'config.ini'
-osd_path        = bin_dir + 'osd'
+osd_path        = bin_dir + 'saio-osd'
 config_file     = '/boot/config-saio.txt'
 
 # Hardware variables
@@ -76,7 +77,16 @@ batt_islow = False
 
 temperature_max = 60.0
 temperature_threshold = 5.0
-temperature_isover = False;
+temperature_isover = False
+
+# Wifi variables
+wifi_state = 'UNKNOWN'
+wifi_off = 0
+wifi_warning = 1
+wifi_error = 2
+wifi_1bar = 3
+wifi_2bar = 4
+wifi_3bar = 5
 
 # Set up a port
 try:
@@ -213,10 +223,58 @@ def readModeDebug():
 
 # Read wifi
 def readModeWifi():
+  ret = wifi_off
+  
   ser.write('w')
   wifiVal = int(ser.readline().rstrip('\r\n'))
   logging.info("Wifi    [" + str(wifiVal) + "]")
-  return wifiVal
+  
+  global wifi_state
+  
+  if (wifiVal):
+    if (wifi_state != 'ON'):
+      wifi_state = 'ON'
+      logging.info("Wifi    [ENABLING]")
+      try:
+        out = subprocess.check_output([ 'sudo', 'rfkill', 'unblock', 'wifi' ])
+        logging.info("Wifi    [" + str(out) + "]")
+        out = subprocess.check_output([ 'sudo', 'rfkill', 'unblock', 'bluetooth' ])
+        logging.info("BT      [" + str(out) + "]")
+      except Exception, e:
+        logging.info("Wifi    : " + str(e.output))
+      ret = wifi_warning
+    else:
+      # Get signal strength
+      raw = subprocess.check_output([ 'cat', '/proc/net/wireless'] )
+      strengthObj = re.search( r'.wlan0: \d*\s*(\d*)\.', raw, re.I )
+      if strengthObj:
+        strength = int(strengthObj.group(1))
+        logging.info("Wifi    [" + str(strength) + "]strength")
+        if (strength > 55):
+          ret = wifi_3bar
+        elif (strength > 40):
+          ret = wifi_2bar
+        elif (strength > 5):
+          ret = wifi_1bar
+        else:
+          ret = wifi_warning
+      else:
+        logging.info("Wifi    [---]strength")
+        ret = wifi_error
+  else:
+    if (wifi_state != 'OFF'):
+      wifi_state = 'OFF'
+      logging.info("Wifi    [DISABLING]")
+      try:
+        out = subprocess.check_output([ 'sudo', 'rfkill', 'block', 'wifi' ])
+        logging.info("Wifi    [" + str(out) + "]")
+        out = subprocess.check_output([ 'sudo', 'rfkill', 'block', 'bluetooth' ])
+        logging.info("BT      [" + str(out) + "]")
+      except Exception, e:
+        logging.info("Wifi    : " + str(e.output))
+      ret = wifi_error
+  
+  return ret
 
 # Read mute
 def readModeMute():
