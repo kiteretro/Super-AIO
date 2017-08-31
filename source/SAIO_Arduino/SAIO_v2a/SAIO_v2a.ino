@@ -277,11 +277,47 @@ void processSerial() {
       case 'i': //is info (0-1)
         Serial.print(cfg.info_val);
         break;
+      case 'I': //set info (I0-1)
+        if (Serial.available() == 1) {
+          tmp = Serial.read();
+          if (tmp == '1') {
+            cfg.info_val = 1;
+          } else {
+            cfg.info_val = 0;
+          }
+        } else {
+          Serial.print('?');
+        }
+        break;
       case 'w': //is wifi (0-1)
         Serial.print(cfg.wifi_val);
         break;
+      case 'W': //set wifi (W0-1)
+        if (Serial.available() == 1) {
+          tmp = Serial.read();
+          if (tmp == '1') {
+            cfg.wifi_val = 1;
+          } else {
+            cfg.wifi_val = 0;
+          }
+        } else {
+          Serial.print('?');
+        }
+        break;
       case 'a': //is audio (0-1)
         Serial.print(cfg.aud_val);
+        break;
+      case 'A': //set audio (A0-1)
+        if (Serial.available() == 1) {
+          tmp = Serial.read();
+          if (tmp == '1') {
+            cfg.aud_val = 1;
+          } else {
+            cfg.aud_val = 0;
+          }
+        } else {
+          Serial.print('?');
+        }
         break;
       case 'b'://button state NOW (HEXHEX)
         Serial.write(btns_char[0]);
@@ -300,10 +336,11 @@ void processSerial() {
         btns_char_last[1] = 0;
         Serial.print(1);
         break;
-      case 's': //get status (b[][][][][][AUD][WIFI][MODE])
+      case 's': //get status (b[][][][][INFO][AUD][WIFI][MODE])
         bitWrite(tmp, STATUS_MODE, mode);
-        bitWrite(tmp, STATUS_WIFI, mode);
-        bitWrite(tmp, STATUS_AUD, mode);
+        bitWrite(tmp, STATUS_WIFI, cfg.wifi_val);
+        bitWrite(tmp, STATUS_AUD, cfg.aud_val);
+        bitWrite(tmp, STATUS_INFO, cfg.info_val);
         Serial.write(tmp);
         break;
       case 'L': //lcd serial input

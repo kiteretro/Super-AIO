@@ -84,4 +84,5 @@
 #define STATUS_MODE 0
 #define STATUS_WIFI 1
 #define STATUS_AUD  2
+#define STATUS_INFO 3
 
