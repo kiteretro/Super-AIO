@@ -32,6 +32,8 @@ uint8_t serial_size = 0;
 uint8_t serial_buf[64];
 bool serial_complete = false;
 
+//---------------------------------------------------------------
+// Process LCD serial input
 bool lcdSerial() {
   delay(20);
   serial_size = 0;

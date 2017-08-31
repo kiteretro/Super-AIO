@@ -85,3 +85,6 @@
 #define BL_MAX 235        // High val = LOW
 #define BL_INC 10
 
+// Button freeze settings
+#define FREEZE_DURATION 1000
+

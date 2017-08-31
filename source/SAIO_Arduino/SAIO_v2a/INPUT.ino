@@ -29,21 +29,25 @@ void readButtons() {
   Wire.requestFrom(ADDR, 2); // request 2 bytes from slave device
   while(Wire.available()) // slave may send less than requested
   {
-    uint8_t c = Wire.read(); // receive a byte as character
+    uint8_t c = ~Wire.read(); // receive a byte as character
     
     if (pos) {
       btns_char[0] = c;
       for (uint8_t i=0; i<8; i++) {
-        btns[i+8] = !bitRead(c, i);
+        btns[i+8] = bitRead(c, i);
       }
     } else {
       btns_char[1] = c;
       for (uint8_t i=0; i<8; i++) {
-        btns[i] = !bitRead(c, i);
+        btns[i] = bitRead(c, i);
       }
     }
     pos++;
   }
+
+  // Set the 'last button pressed' chars, useful to know without reading it live
+  btns_char_last[0] |= btns_char[0];
+  btns_char_last[1] |= btns_char[1];
 }
 
 //--------------------------------------------------------------------------------------
