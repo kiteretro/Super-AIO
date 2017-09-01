@@ -271,58 +271,70 @@ void processSerial() {
       case 'V': //voltage val (0-1023)
         Serial.print(voltVal);
         break;
+        
       case 'C': //current val (0-1023)
         Serial.print(currVal);
         break;
+        
       case 'i': //is info (0-1)
         Serial.print(cfg.info_val);
         break;
+        
       case 'I': //set info (I0-1)
         if (Serial.available() == 1) {
           tmp = Serial.read();
           if (tmp == '1') {
-            cfg.info_val = 1;
+            setInfo(1);
           } else {
-            cfg.info_val = 0;
+            setInfo(0);
           }
+          Serial.print('1');
         } else {
           Serial.print('?');
         }
         break;
+        
       case 'w': //is wifi (0-1)
         Serial.print(cfg.wifi_val);
         break;
+        
       case 'W': //set wifi (W0-1)
         if (Serial.available() == 1) {
           tmp = Serial.read();
           if (tmp == '1') {
-            cfg.wifi_val = 1;
+            setWifi(1);
           } else {
-            cfg.wifi_val = 0;
+            setWifi(0);
           }
+          Serial.print('1');
         } else {
           Serial.print('?');
         }
         break;
+        
       case 'a': //is audio (0-1)
         Serial.print(cfg.aud_val);
         break;
+        
       case 'A': //set audio (A0-1)
         if (Serial.available() == 1) {
           tmp = Serial.read();
           if (tmp == '1') {
-            cfg.aud_val = 1;
+            setAud(1);
           } else {
-            cfg.aud_val = 0;
+            setAud(0);
           }
+          Serial.print('1');
         } else {
           Serial.print('?');
         }
         break;
+        
       case 'b'://button state NOW (HEXHEX)
         Serial.write(btns_char[0]);
         Serial.write(btns_char[1]);
         break;
+        
       case 'B': //button last full state (HEXHEX) also freezes USB
         Serial.write(btns_char_last[0]);
         Serial.write(btns_char_last[1]);
@@ -331,11 +343,13 @@ void processSerial() {
         tfrozen = millis();
         isfrozen = 1;
         break;
+        
       case 'r': //reset button last full state
         btns_char_last[0] = 0;
         btns_char_last[1] = 0;
-        Serial.print(1);
+        Serial.print('1');
         break;
+        
       case 's': //get status (b[][][][][INFO][AUD][WIFI][MODE])
         bitWrite(tmp, STATUS_MODE, mode);
         bitWrite(tmp, STATUS_WIFI, cfg.wifi_val);
@@ -343,15 +357,18 @@ void processSerial() {
         bitWrite(tmp, STATUS_INFO, cfg.info_val);
         Serial.write(tmp);
         break;
+        
       case 'L': //lcd serial input
         if (lcdSerial()) {
           Serial.print(LCD_SUCCESS);
         }
         break;
+        
       case 'l': //lcd init
         lcdInit();
-        Serial.print(1);
+        Serial.print('1');
         break;
+        
       default: //error
         Serial.print('?');
       break;
