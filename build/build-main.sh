@@ -176,6 +176,9 @@ execute "git clone --recursive --depth 1 --branch master https://github.com/Retr
 execute "cp $GITHUBDIR/release/saio/es_settings.cfg $MOUNT/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 execute "sed -i \"s/carbon/pixel/\" $MOUNT/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 
+# Enable 30sec autosave on roms
+execute "sed -i \"s/# autosave_interval =/autosave_interval = 30/\" $MOUNT/opt/retropie/configs/all/retroarch.cfg"
+
 # Unmount
 execute "umount $MOUNT"
 
