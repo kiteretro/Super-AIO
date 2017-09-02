@@ -247,9 +247,13 @@ def readModeWifi():
     else:
       # Get signal strength
       raw = subprocess.check_output([ 'cat', '/proc/net/wireless'] )
-      strengthObj = re.search( r'.wlan0: \d*\s*(\d*)\.', raw, re.I )
+      strengthObj = re.search( r'.wlan0: \d*\s*(\d*)\.\s*[-]?(\d*)\.', raw, re.I )
       if strengthObj:
-        strength = int(strengthObj.group(1))
+        strength = 0
+        if (int(strengthObj.group(1)) > 0):
+          strength = int(strengthObj.group(1))
+        elif (int(strengthObj.group(2)) > 0):
+          strength = int(strengthObj.group(2))
         logging.info("Wifi    [" + str(strength) + "]strength")
         if (strength > 55):
           ret = wifi_3bar

@@ -32,9 +32,9 @@ if [ -f $CONFIGFILE ]; then
     exit 0
   else
     echo "Starting EMULATIONSTATION.."
-    emulationstation --vsync 1 #auto
+    emulationstation #auto
   fi
 else
   echo "Starting EMULATIONSTATION.."
-  emulationstation --vsync 1 #auto
+  emulationstation #auto
 fi
