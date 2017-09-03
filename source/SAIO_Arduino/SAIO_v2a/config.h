@@ -28,7 +28,7 @@
 //#define DEBUG //Print out a load of debug messages. YOU NEED THE SERIAL MONITOR ALWAYS OPEN OTHERWISE THE BUFFER FILLS UP
 //#define NOMODE //Disable the use of the 'mode' button completely
 //#define NOJOY //Disable the joystick
-//#define CUSTOMLCD //Custom 640x480 LCD support
+//#define 640LCD //Custom 640x480 LCD support
 //#define JOYSTICK2
 
 // Hardware bits

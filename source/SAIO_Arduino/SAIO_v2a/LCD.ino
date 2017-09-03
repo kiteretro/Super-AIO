@@ -115,7 +115,7 @@ void lcdInit() {
   digitalWrite(RESET, LOW);
 #endif
 
-#ifndef CUSTOMLCD
+#ifndef 640LCD
   return;
 #endif
 
