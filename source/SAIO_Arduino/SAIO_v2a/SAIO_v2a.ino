@@ -188,6 +188,9 @@ void setup() {
 //--------------------------------------------------------------------------------------
 // MAIN LOOP
 void loop() {
+
+  // Check serial console
+  processSerial();
   
   // Button loop (62.5Hz)
   static uint32_t tnow = 0;
@@ -204,15 +207,15 @@ void loop() {
 
       // Set gamepad buttons (USB)
       setGamepad();
-  
-      // Set modes and aux things
-      setModes();
 
     } else { //reset frozen counter
       if (millis() - tfrozen > FREEZE_DURATION) {
         isfrozen = 0;
       }
     }
+
+    // Set modes and aux things
+    setModes();
 
     // Led OFF for debug
     led(LED_OFF);
@@ -232,9 +235,6 @@ void loop() {
       btns_char_last[0] = 0;
       btns_char_last[1] = 0;
     }
-
-    // Check serial console
-    processSerial();
     
     tnow2 = millis();
   }
