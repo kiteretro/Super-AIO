@@ -97,6 +97,9 @@ struct Config {
   bool iscalib2 = 0;
 } cfg;
 
+static uint8_t model = MODEL;
+static uint8_t hardware = HARDWARE;
+
 // Button array
 volatile bool btns[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 volatile uint8_t btns_char[2] = {0,0};
@@ -355,6 +358,18 @@ void processSerial() {
         bitWrite(tmp, STATUS_WIFI, cfg.wifi_val);
         bitWrite(tmp, STATUS_AUD, cfg.aud_val);
         bitWrite(tmp, STATUS_INFO, cfg.info_val);
+        Serial.write(tmp);
+        break;
+
+      case 'm': //get model (b[V][V][V][V][M][M][M][M])
+        bitWrite(tmp, 0, bitRead(model, 0));
+        bitWrite(tmp, 1, bitRead(model, 1));
+        bitWrite(tmp, 2, bitRead(model, 2));
+        bitWrite(tmp, 3, bitRead(model, 3));
+        bitWrite(tmp, 4, bitRead(hardware, 0));
+        bitWrite(tmp, 5, bitRead(hardware, 1));
+        bitWrite(tmp, 6, bitRead(hardware, 2));
+        bitWrite(tmp, 7, bitRead(hardware, 3));
         Serial.write(tmp);
         break;
         

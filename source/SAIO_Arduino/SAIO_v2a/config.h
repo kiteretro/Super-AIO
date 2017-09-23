@@ -20,6 +20,9 @@
 
 #include "defs.h"
 
+// Board models
+#define MODEL MODEL_SAIO
+
 // Board versions
 //#define HARDWARE HARDWARE_05E1
 //#define HARDWARE HARDWARE_06C
@@ -70,6 +73,9 @@
 // Error check
 #ifndef MODECHECK
 #error "ERROR: MODECHECK not defined! You probably haven't selected the correct hardware in config.h"
+#endif
+#ifndef MODEL
+#error "ERROR: MODEL not defined! You probably haven't selected the correct model in config.h"
 #endif
 
 // Joystick settings

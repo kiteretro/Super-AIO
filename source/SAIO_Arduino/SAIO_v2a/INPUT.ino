@@ -26,23 +26,42 @@
 void readButtons() {
   // Read
   uint8_t pos = 0;
+  bool thisbtns[16];
   Wire.requestFrom(ADDR, 2); // request 2 bytes from slave device
   while(Wire.available()) // slave may send less than requested
   {
     uint8_t c = ~Wire.read(); // receive a byte as character
-    
-    if (pos) {
-      btns_char[0] = c;
-      for (uint8_t i=0; i<8; i++) {
-        btns[i+8] = bitRead(c, i);
-      }
-    } else {
-      btns_char[1] = c;
-      for (uint8_t i=0; i<8; i++) {
-        btns[i] = bitRead(c, i);
-      }
+
+    for (uint8_t i=0; i<8; i++) {
+      thisbtns[i+pos*8] = bitRead(c, i);
     }
     pos++;
+  }
+
+  // Set the correct mapping.. this is VERY inefficient!!!
+  btns[UP] = thisbtns[BTN_UP];
+  btns[DOWN] = thisbtns[BTN_DOWN];
+  btns[LEFT] = thisbtns[BTN_LEFT];
+  btns[RIGHT] = thisbtns[BTN_RIGHT];
+  btns[A] = thisbtns[BTN_A];
+  btns[B] = thisbtns[BTN_B];
+  btns[X] = thisbtns[BTN_X];
+  btns[Y] = thisbtns[BTN_Y];
+  btns[START] = thisbtns[BTN_START];
+  btns[SELECT] = thisbtns[BTN_SELECT];
+  btns[L1] = thisbtns[BTN_L1];
+  btns[L2] = thisbtns[BTN_L2];
+  btns[R1] = thisbtns[BTN_R1];
+  btns[R2] = thisbtns[BTN_R2];
+  btns[A1] = thisbtns[BTN_A1];
+  btns[A2] = thisbtns[BTN_A2];
+
+  // Populate the btns_char for quicker access
+  for (uint8_t i=0; i<8; i++) {
+    bitWrite(btns_char[0], i, btns[i]);
+  }
+  for (uint8_t i=0; i<8; i++) {
+    bitWrite(btns_char[1], i, btns[i+8]);
   }
 
   // Set the 'last button pressed' chars, useful to know without reading it live
@@ -80,96 +99,96 @@ void setGamepad() {
   //DPAD
   Gamepad.dPad1(GAMEPAD_DPAD_CENTERED);
 
-  if (btns[BTN_DOWN]) {
+  if (btns[DOWN]) {
     Gamepad.dPad1(GAMEPAD_DPAD_DOWN);
-    if (btns[BTN_LEFT]) {
+    if (btns[LEFT]) {
       Gamepad.dPad1(GAMEPAD_DPAD_DOWN_LEFT);
     }
-    if (btns[BTN_RIGHT]) {
+    if (btns[RIGHT]) {
       Gamepad.dPad1(GAMEPAD_DPAD_DOWN_RIGHT);
     }
-  } else if(btns[BTN_UP]) {
+  } else if(btns[UP]) {
     Gamepad.dPad1(GAMEPAD_DPAD_UP);
-    if (btns[BTN_LEFT]) {
+    if (btns[LEFT]) {
       Gamepad.dPad1(GAMEPAD_DPAD_UP_LEFT);
     }
-    if (btns[BTN_RIGHT]) {
+    if (btns[RIGHT]) {
       Gamepad.dPad1(GAMEPAD_DPAD_UP_RIGHT);
     }
-  } else if (btns[BTN_LEFT]) {
+  } else if (btns[LEFT]) {
     Gamepad.dPad1(GAMEPAD_DPAD_LEFT);
-  } else if (btns[BTN_RIGHT]) {
+  } else if (btns[RIGHT]) {
     Gamepad.dPad1(GAMEPAD_DPAD_RIGHT);
   }
   
   //BUTTON
-  if (btns[BTN_A]) {
+  if (btns[A]) {
     Gamepad.press(1);
   } else {
     Gamepad.release(1);
   }
 
-  if (btns[BTN_B]) {
+  if (btns[B]) {
     Gamepad.press(2);
   } else {
     Gamepad.release(2);
   }
 
-  if (btns[BTN_X]) {
+  if (btns[X]) {
     Gamepad.press(3);
   } else {
     Gamepad.release(3);
   }
 
-  if (btns[BTN_Y]) {
+  if (btns[Y]) {
     Gamepad.press(4);
   } else {
     Gamepad.release(4);
   }
 
-  if (btns[BTN_START]) {
+  if (btns[START]) {
     Gamepad.press(5);
   } else {
     Gamepad.release(5);
   }
 
-  if (btns[BTN_SELECT]) {
+  if (btns[SELECT]) {
     Gamepad.press(6);
   } else {
     Gamepad.release(6);
   }
 
-  if (btns[BTN_L1]) {
+  if (btns[L1]) {
     Gamepad.press(7);
   } else {
     Gamepad.release(7);
   }
 
-  if (btns[BTN_L2]) {
+  if (btns[L2]) {
     Gamepad.press(8);
   } else {
     Gamepad.release(8);
   }
 
-  if (btns[BTN_R1]) {
+  if (btns[R1]) {
     Gamepad.press(9);
   } else {
     Gamepad.release(9);
   }
 
-  if (btns[BTN_R2]) {
+  if (btns[R2]) {
     Gamepad.press(10);
   } else {
     Gamepad.release(10);
   }
 
-  if (btns[BTN_A1]) {
+  if (btns[A1]) {
     Gamepad.press(11);
   } else {
     Gamepad.release(11);
   }
 
-  if (btns[BTN_A2]) {
+  if (btns[A2]) {
     Gamepad.press(12);
   } else {
     Gamepad.release(12);

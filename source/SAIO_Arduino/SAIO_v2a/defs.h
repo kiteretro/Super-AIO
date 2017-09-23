@@ -57,6 +57,24 @@
 #define BTN_A1     14
 #define BTN_A2     15
 
+// Button order
+#define UP     0
+#define DOWN   1
+#define LEFT   2
+#define RIGHT  3
+#define A      4
+#define B      5
+#define X      6
+#define Y      7
+#define START  8
+#define SELECT 9
+#define L1     10
+#define L2     11
+#define R1     12
+#define R2     13
+#define A1     14
+#define A2     15
+
 // BACKLIGHT
 #define BL_UP   2
 #define BL_DOWN 1
@@ -69,6 +87,10 @@
 #define LED_OFF 0
 #define LED_ON  1
 
+//List of models, MAX is 15 (4bits)
+#define MODEL_SAIO 1
+
+//List of versions, MAX is 15 (4bits)
 #define HARDWARE_05E1 1
 #define HARDWARE_06C  2
 
@@ -81,8 +103,8 @@
 #define FAILED_TIMEOUT_NO_END "F1"
 #define FAILED_NOT_EVEN_ARGS  "F2"
 
-#define STATUS_MODE 0
-#define STATUS_WIFI 1
-#define STATUS_AUD  2
-#define STATUS_INFO 3
+#define STATUS_MODE    0
+#define STATUS_WIFI    1
+#define STATUS_AUD     2
+#define STATUS_INFO    3
 
