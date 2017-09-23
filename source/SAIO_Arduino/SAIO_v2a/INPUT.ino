@@ -299,28 +299,28 @@ void setGamepad() {
 void setModes() {
   // WRITE
   if (mode) {
-    if (btns[BTN_UP]) {
+    if (btns[UP]) {
       setBl(BL_UP);
     }
-    if (btns[BTN_DOWN]) {
+    if (btns[DOWN]) {
       setBl(BL_DOWN);
     }
-    if (btns[BTN_A]) {
+    if (btns[A]) {
       setWifi(1);
     }
-    if (btns[BTN_B]) {
+    if (btns[B]) {
       setWifi(0);
     }
-    if (btns[BTN_Y]) {
+    if (btns[Y]) {
       setAud(1);
     }
-    if (btns[BTN_X]) {
+    if (btns[X]) {
       setAud(0);
     }
-    if (btns[BTN_START]) {
+    if (btns[START]) {
       setInfo(1);
     }
-    if (btns[BTN_SELECT]) {
+    if (btns[SELECT]) {
       setInfo(0);
     }
 
@@ -360,7 +360,7 @@ void change() {
 //--------------------------------------------------------------------------------------
 // CALIBRATE JOYSTICK
 void calibrateJoystick() {
-  if (!btns[BTN_START]) {
+  if (!btns[START]) {
     return;
   }
   
