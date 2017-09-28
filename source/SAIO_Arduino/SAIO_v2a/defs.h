@@ -58,22 +58,22 @@
 #define BTN_A2     15
 
 // Button order
-#define UP     0
-#define DOWN   1
-#define LEFT   2
-#define RIGHT  3
-#define A      4
-#define B      5
-#define X      6
-#define Y      7
-#define START  8
-#define SELECT 9
-#define L1     10
-#define L2     11
-#define R1     12
-#define R2     13
-#define A1     14
-#define A2     15
+#define B_UP     0
+#define B_DOWN   1
+#define B_LEFT   2
+#define B_RIGHT  3
+#define B_A      4
+#define B_B      5
+#define B_X      6
+#define B_Y      7
+#define B_START  8
+#define B_SELECT 9
+#define B_L1     10
+#define B_L2     11
+#define B_R1     12
+#define B_R2     13
+#define B_A1     14
+#define B_A2     15
 
 // BACKLIGHT
 #define BL_UP   2

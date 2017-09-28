@@ -39,22 +39,22 @@ void readButtons() {
   }
 
   // Set the correct mapping.. this is VERY inefficient!!!
-  btns[UP] = thisbtns[BTN_UP];
-  btns[DOWN] = thisbtns[BTN_DOWN];
-  btns[LEFT] = thisbtns[BTN_LEFT];
-  btns[RIGHT] = thisbtns[BTN_RIGHT];
-  btns[A] = thisbtns[BTN_A];
-  btns[B] = thisbtns[BTN_B];
-  btns[X] = thisbtns[BTN_X];
-  btns[Y] = thisbtns[BTN_Y];
-  btns[START] = thisbtns[BTN_START];
-  btns[SELECT] = thisbtns[BTN_SELECT];
-  btns[L1] = thisbtns[BTN_L1];
-  btns[L2] = thisbtns[BTN_L2];
-  btns[R1] = thisbtns[BTN_R1];
-  btns[R2] = thisbtns[BTN_R2];
-  btns[A1] = thisbtns[BTN_A1];
-  btns[A2] = thisbtns[BTN_A2];
+  btns[B_UP] = thisbtns[BTN_UP];
+  btns[B_DOWN] = thisbtns[BTN_DOWN];
+  btns[B_LEFT] = thisbtns[BTN_LEFT];
+  btns[B_RIGHT] = thisbtns[BTN_RIGHT];
+  btns[B_A] = thisbtns[BTN_A];
+  btns[B_B] = thisbtns[BTN_B];
+  btns[B_X] = thisbtns[BTN_X];
+  btns[B_Y] = thisbtns[BTN_Y];
+  btns[B_START] = thisbtns[BTN_START];
+  btns[B_SELECT] = thisbtns[BTN_SELECT];
+  btns[B_L1] = thisbtns[BTN_L1];
+  btns[B_L2] = thisbtns[BTN_L2];
+  btns[B_R1] = thisbtns[BTN_R1];
+  btns[B_R2] = thisbtns[BTN_R2];
+  btns[B_A1] = thisbtns[BTN_A1];
+  btns[B_A2] = thisbtns[BTN_A2];
 
   // Populate the btns_char for quicker access
   for (uint8_t i=0; i<8; i++) {
@@ -99,96 +99,96 @@ void setGamepad() {
   //DPAD
   Gamepad.dPad1(GAMEPAD_DPAD_CENTERED);
 
-  if (btns[DOWN]) {
+  if (btns[B_DOWN]) {
     Gamepad.dPad1(GAMEPAD_DPAD_DOWN);
-    if (btns[LEFT]) {
+    if (btns[B_LEFT]) {
       Gamepad.dPad1(GAMEPAD_DPAD_DOWN_LEFT);
     }
-    if (btns[RIGHT]) {
+    if (btns[B_RIGHT]) {
       Gamepad.dPad1(GAMEPAD_DPAD_DOWN_RIGHT);
     }
-  } else if(btns[UP]) {
+  } else if(btns[B_UP]) {
     Gamepad.dPad1(GAMEPAD_DPAD_UP);
-    if (btns[LEFT]) {
+    if (btns[B_LEFT]) {
       Gamepad.dPad1(GAMEPAD_DPAD_UP_LEFT);
     }
-    if (btns[RIGHT]) {
+    if (btns[B_RIGHT]) {
       Gamepad.dPad1(GAMEPAD_DPAD_UP_RIGHT);
     }
-  } else if (btns[LEFT]) {
+  } else if (btns[B_LEFT]) {
     Gamepad.dPad1(GAMEPAD_DPAD_LEFT);
-  } else if (btns[RIGHT]) {
+  } else if (btns[B_RIGHT]) {
     Gamepad.dPad1(GAMEPAD_DPAD_RIGHT);
   }
   
   //BUTTON
-  if (btns[A]) {
+  if (btns[B_A]) {
     Gamepad.press(1);
   } else {
     Gamepad.release(1);
   }
 
-  if (btns[B]) {
+  if (btns[B_B]) {
     Gamepad.press(2);
   } else {
     Gamepad.release(2);
   }
 
-  if (btns[X]) {
+  if (btns[B_X]) {
     Gamepad.press(3);
   } else {
     Gamepad.release(3);
   }
 
-  if (btns[Y]) {
+  if (btns[B_Y]) {
     Gamepad.press(4);
   } else {
     Gamepad.release(4);
   }
 
-  if (btns[START]) {
+  if (btns[B_START]) {
     Gamepad.press(5);
   } else {
     Gamepad.release(5);
   }
 
-  if (btns[SELECT]) {
+  if (btns[B_SELECT]) {
     Gamepad.press(6);
   } else {
     Gamepad.release(6);
   }
 
-  if (btns[L1]) {
+  if (btns[B_L1]) {
     Gamepad.press(7);
   } else {
     Gamepad.release(7);
   }
 
-  if (btns[L2]) {
+  if (btns[B_L2]) {
     Gamepad.press(8);
   } else {
     Gamepad.release(8);
   }
 
-  if (btns[R1]) {
+  if (btns[B_R1]) {
     Gamepad.press(9);
   } else {
     Gamepad.release(9);
   }
 
-  if (btns[R2]) {
+  if (btns[B_R2]) {
     Gamepad.press(10);
   } else {
     Gamepad.release(10);
   }
 
-  if (btns[A1]) {
+  if (btns[B_A1]) {
     Gamepad.press(11);
   } else {
     Gamepad.release(11);
   }
 
-  if (btns[A2]) {
+  if (btns[B_A2]) {
     Gamepad.press(12);
   } else {
     Gamepad.release(12);
@@ -299,28 +299,28 @@ void setGamepad() {
 void setModes() {
   // WRITE
   if (mode) {
-    if (btns[UP]) {
+    if (btns[B_UP]) {
       setBl(BL_UP);
     }
-    if (btns[DOWN]) {
+    if (btns[B_DOWN]) {
       setBl(BL_DOWN);
     }
-    if (btns[A]) {
+    if (btns[B_A]) {
       setWifi(1);
     }
-    if (btns[B]) {
+    if (btns[B_B]) {
       setWifi(0);
     }
-    if (btns[Y]) {
+    if (btns[B_Y]) {
       setAud(1);
     }
-    if (btns[X]) {
+    if (btns[B_X]) {
       setAud(0);
     }
-    if (btns[START]) {
+    if (btns[B_START]) {
       setInfo(1);
     }
-    if (btns[SELECT]) {
+    if (btns[B_SELECT]) {
       setInfo(0);
     }
 
@@ -337,6 +337,7 @@ void setModes() {
 //--------------------------------------------------------------------------------------
 // ANALOG DATA
 void readAnalogData() {
+  delay(1);
   voltVal = analogRead(PIN_VOLT);
   delay(1);
   currVal = analogRead(PIN_CURR);
@@ -360,7 +361,7 @@ void change() {
 //--------------------------------------------------------------------------------------
 // CALIBRATE JOYSTICK
 void calibrateJoystick() {
-  if (!btns[START]) {
+  if (!btns[B_START]) {
     return;
   }
   
