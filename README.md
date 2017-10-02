@@ -28,6 +28,7 @@ The script will open a serial port to the ATMEGA32u4 and inquire details about b
 
 You will probably need to set the binaries to executable:
 - `chmod +x Super-AIO/release/saio/osd/osd`
+- `chmod +x Super-AIO/release/saio/rfkill/rfkill`
 - `chmod +x Super-AIO/release/saio/flash/flash.sh`
 
 The script is launched with `python Super-AIO/release/saio/saio-osd.py`
