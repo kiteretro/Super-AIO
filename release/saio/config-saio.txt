@@ -4,6 +4,7 @@
 #
 
 # Mode to boot in, TESTER will run a debug app
+# Note that 'LCDDEBUG' you MUST configure for HDMI output. Don't enable this unless you are following some specific instructions to do so as it is purely a debug thing!
 MODE=NORMAL
 #MODE=TESTER
 #MODE=LCDDEBUG
