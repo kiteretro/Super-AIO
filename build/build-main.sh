@@ -177,6 +177,12 @@ execute "cp $GITHUBDIR/release/saio/es_settings.cfg $MOUNT/opt/retropie/configs/
 execute "sed -i \"s/carbon/pixel/\" $MOUNT/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 execute "chown $USER:$USER $MOUNT/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 
+# Install splashscreens for emulators
+execute "git clone --recursive --depth 1 https://github.com/ehettervik/es-runcommand-splash.git es-runcommand-splash-master"
+execute "cp -r es-runcommand-splash-master/* $MOUNT/opt/retropie/configs"
+execute "sed -i \"/use_art = \"0\"/use_art = \"1\"/\" $MOUNT/opt/retropie/configs/all/runcommand.cfg"
+execute "chown -R $USER:$USER $MOUNT/opt/retropie/configs"
+
 # Enable 30sec autosave on roms
 execute "sed -i \"s/# autosave_interval =/autosave_interval = \"30\"/\" $MOUNT/opt/retropie/configs/all/retroarch.cfg"
 
