@@ -31,35 +31,35 @@ dtparam=audio=off
 #######################
 
 # uncomment if hdmi display is not detected and composite is being output
-#hdmi_force_hotplug=1
+hdmi_force_hotplug=1
  
 # uncomment to force a specific HDMI mode (here we are forcing 800x480!)
-#hdmi_group=2
-#hdmi_mode=1
-#hdmi_mode=87
-#hdmi_cvt=800 480 60 6 0 0 0
+hdmi_group=2
+hdmi_mode=1
+hdmi_mode=87
+hdmi_cvt=800 480 60 6 0 0 0
 
 #######################
 #### DPI SETTINGS #####
 #######################
 
 # Enable DPI
-dtoverlay=dpi18
-overscan_left=0
-overscan_right=0
-overscan_top=0
-overscan_bottom=0
-enable_dpi_lcd=1
-display_default_lcd=1
-dpi_group=2
-dpi_mode=87
+# dtoverlay=dpi18
+# overscan_left=0
+# overscan_right=0
+# overscan_top=0
+# overscan_bottom=0
+# enable_dpi_lcd=1
+# display_default_lcd=1
+# dpi_group=2
+# dpi_mode=87
 
 # Enable 320x240 custom display mode
-framebuffer_width=320
-framebuffer_height=240
-display_rotate=2
-dpi_output_format=24597 #rgb
-hdmi_timings=320 1 20 30 38 240 1 4 3 10 0 0 0 60 0 9600000 1
+# framebuffer_width=320
+# framebuffer_height=240
+# display_rotate=2
+# dpi_output_format=24597 #rgb
+# hdmi_timings=320 1 20 30 38 240 1 4 3 10 0 0 0 60 0 9600000 1
 
 # Enable 640x480 custom display mode
 # framebuffer_width=640

@@ -27,6 +27,9 @@ if [ -f $CONFIGFILE ]; then
   if [[ "$MODE" == "TESTER" && -n "$TESTER" ]] ; then
     echo "Starting TESTER.."
     python $TESTER
+  elif [[ "$MODE" == "LCDDEBUG" && -n "$LCDDEBUG" ]] ; then
+    echo "Starting LCDDEBUG.."
+    python $LCDDEBUG
   elif [ "$MODE" == "SHELL" ] ; then
     echo "Starting SHELL.."
     exit 0
