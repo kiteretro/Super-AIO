@@ -25,13 +25,13 @@
 
 // Board versions
 //#define HARDWARE HARDWARE_05E1
-#define HARDWARE HARDWARE_06C
+//#define HARDWARE HARDWARE_06C
 
 // Options
 //#define DEBUG //Print out a load of debug messages. YOU NEED THE SERIAL MONITOR ALWAYS OPEN OTHERWISE THE BUFFER FILLS UP
 //#define NOMODE //Disable the use of the 'mode' button completely
 //#define NOJOY //Disable the joystick
-#define LCD640 //Custom 640x480 LCD support
+//#define LCD640 //Custom 640x480 LCD support
 //#define JOYSTICK2
 
 // Hardware bits
