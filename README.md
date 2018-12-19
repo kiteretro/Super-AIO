@@ -8,13 +8,13 @@ Kite's Super AIO
 2. Solder up Pi to hardware
 3. Download pre-made image and write to an SD
 4. Boot up and test all features work
-5. Make case modes
+5. Make housing/shell
 6. Install hardware bit by bit to check working
 7. Complete build, test some more
-8. Complete! Play some games
+8. Complete!
 
 ## PRE-MADE IMAGES
-The pre-made images are available on the 'releases' section, and are a standard retropie image + a build script run on it to install the extra bits!
+The pre-made images are available on the 'releases' section, and are a standard image + a build script run on it to install the extra bits!
 
 There are now SINGLE images for each platform, and you can change them between NORMAL and TESTER by plugging in the SD to a PC and editing `config-saio.txt` (from within linux this is `/boot/config-saio.txt`) and uncommenting/commenting the right lines :)
 
@@ -35,7 +35,7 @@ The script is launched with `python Super-AIO/release/saio/saio-osd.py`
 
 You can run this as a cronjob with `crontab Super-AIO/release/saio/cronSAIO.txt`
 
-Place the `autostart.sh` in `/opt/retropie/configs/all/autostart.sh` and then configure the `/boot/config-saio.txt` file for the boot mode
+Place the `autostart.sh` in `/opt/r*/configs/all/autostart.sh` and then configure the `/boot/config-saio.txt` file for the boot mode
 
 To enable USB sound, copy the `asound.conf` into `/etc/` (`sudo cp Super-AIO/release/saio/asound.conf /etc/`)
 
