@@ -172,7 +172,7 @@ execute "sed -i \"s/mupen64plus-audio-omx/mupen64plus-audio-sdl/\" $MOUNT/opt/re
 # Install the pixel theme and set it as default
 execute "mkdir -p $MOUNT/etc/emulationstation/themes"
 execute "rm -rf $MOUNT/etc/emulationstation/themes/pixel"
-execute "git clone --recursive --depth 1 --branch master https://github.com/geebles/es-theme-pixel.git $MOUNT/etc/emulationstation/themes/pixel"
+execute "git clone --recursive --depth 1 --branch master https://github.com/krextra/es-theme-pixel.git $MOUNT/etc/emulationstation/themes/pixel"
 execute "cp $GITHUBDIR/release/saio/es_settings.cfg $MOUNT/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 execute "sed -i \"s/carbon/pixel/\" $MOUNT/opt/retropie/configs/all/emulationstation/es_settings.cfg"
 execute "chown $USER:$USER $MOUNT/opt/retropie/configs/all/emulationstation/es_settings.cfg"
